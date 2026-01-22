@@ -1,16 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { User, UserDocument } from './schemas/user.schema';
+import { User } from './schemas/user.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import { genSaltSync, hashSync } from 'bcryptjs';
 
 @Injectable()
 export class UsersService {
-    constructor(@InjectModel(User.name) private userModel: Model<User>) { }
+    constructor(@InjectModel(User.name) private userModel: Model<User>) { } // Inject mô hình User vào dịch vụ người dùng
+
+    getHashPassword = (password: string) => {
+        const salt = genSaltSync(10);
+        const hash = hashSync(password, salt);
+        return hash;
+    }
 
     //   create(createUserDto: CreateUserDto) {
     async create(email: string, password: string, name: string) {
-        let user = await this.userModel.create({ email, password, name });
+        let hashedPassword = this.getHashPassword(password);
+        let user = await this.userModel.create({ email, password: hashedPassword, name });
         return user;
     }
 
