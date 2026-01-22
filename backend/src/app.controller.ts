@@ -1,13 +1,18 @@
 import { Controller, Get, Render } from '@nestjs/common';
 import { AppService } from './app.service';
+import { ConfigService } from '@nestjs/config';
 
 @Controller()
 export class AppController {
-    constructor(private readonly appService: AppService) { }
+    constructor(
+        private readonly appService: AppService,
+         private configService: ConfigService // sử dụng ConfigService trong AppController
+        ) { }
 
     @Get()//=> restful API
     @Render("home") //=> SSR
-    getHello() {
-        // return "";
+    handleHomePage() {
+        const message = this.appService.getHello();
+        return { message };
     }
 }
