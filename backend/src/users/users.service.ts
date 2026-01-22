@@ -41,12 +41,15 @@ export class UsersService {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return "ID không hợp lệ";
         }
-        const user = await this.userModel.updateOne({ _id: id }, { $set: { ...updateUserDto } });
+        const user = await this.userModel.updateOne({ _id: id }, { ...updateUserDto });
         return user;
     }
 
     async remove(id: string) {
-        await this.userModel.findByIdAndDelete(id);
-        return { message: 'Xóa user thành công' };
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return "ID không hợp lệ";
+        }
+        const user = await this.userModel.deleteOne({ _id: id });
+        return user;
     }
 }
