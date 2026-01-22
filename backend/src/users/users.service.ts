@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './schemas/user.schema';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { genSaltSync, hashSync } from 'bcryptjs';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -19,23 +19,34 @@ export class UsersService {
     async create(createUserDto: CreateUserDto) {
         const { email, password, name, address } = createUserDto;
         const hashedPassword = this.getHashPassword(password);
-        let user = await this.userModel.create({ email, password: hashedPassword, name, address });
+        const user = await this.userModel.create({ email, password: hashedPassword, name, address });
         return user;
     }
 
-    findAll() {
-        return `This action returns all users`;
+    async findAll() {
+        const users = await this.userModel.find();
+        return users;
     }
 
-    findOne(id: number) {
-        return `This action returns a #${id} user`;
+    async findOne(id: string) {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return "ID không hợp lệ";
+        }
+        const user = await this.userModel.findOne({ _id: id });
+        return user;
     }
 
-    update(id: number, updateUserDto: UpdateUserDto) {
-        return `This action updates a #${id} user`;
+    async update(updateUserDto: UpdateUserDto) {
+        const { id } = updateUserDto;
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return "ID không hợp lệ";
+        }
+        const user = await this.userModel.updateOne({ _id: id }, { $set: { ...updateUserDto } });
+        return user;
     }
 
-    remove(id: number) {
-        return `This action removes a #${id} user`;
+    async remove(id: string) {
+        await this.userModel.findByIdAndDelete(id);
+        return { message: 'Xóa user thành công' };
     }
 }
