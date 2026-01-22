@@ -7,7 +7,7 @@ import { UsersModule } from './users/users.module';
 
 @Module({
     imports: [
-        MongooseModule.forRootAsync({ // sử dụng ConfigService để lấy chuỗi kết nối MongoDB
+        MongooseModule.forRootAsync({ // sử dụng ConfigService để kết nối MongoDB
             imports: [ConfigModule],
             useFactory: async (configService: ConfigService) => ({
                 uri: configService.get<string>('MONGODB_URL'),
