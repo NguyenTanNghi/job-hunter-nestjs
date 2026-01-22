@@ -4,6 +4,7 @@ import { AppController } from './app.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
     imports: [
@@ -17,7 +18,8 @@ import { UsersModule } from './users/users.module';
         ConfigModule.forRoot({
             isGlobal: true,//cho phép sử dụng ở mọi module
         }),
-        UsersModule
+        UsersModule,
+        AuthModule
     ],
     controllers: [AppController],
     providers: [AppService],
