@@ -8,5 +8,6 @@ import { User, UserSchema } from './schemas/user.schema';
     imports: [MongooseModule.forFeature([{ name: User.name, schema: UserSchema }])],// đăng ký mô hình User trong module người dùng
     controllers: [UsersController],
     providers: [UsersService],
+    exports: [UsersService] // xuất dịch vụ người dùng để các module khác có thể sử dụng
 })
 export class UsersModule { }
