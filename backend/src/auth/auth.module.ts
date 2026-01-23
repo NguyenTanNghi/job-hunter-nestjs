@@ -5,11 +5,13 @@ import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from './passport/local.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { JwtStrategy } from './passport/jwt.strategy';
 
 @Module({
     imports: [
         UsersModule,
         PassportModule,
+        // Cấu hình JwtModule sử dụng ConfigService để lấy các biến môi trường
         JwtModule.registerAsync({
             imports: [ConfigModule],
             useFactory: async (configService: ConfigService) => ({
@@ -20,7 +22,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
             }),
             inject: [ConfigService],
         }),],
-    providers: [AuthService, LocalStrategy],
+    providers: [AuthService, LocalStrategy, JwtStrategy], // Đăng ký các chiến lược xác thực và dịch vụ xác thực
     exports: [AuthService],
 })
 export class AuthModule { }
