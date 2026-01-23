@@ -20,13 +20,13 @@ export class AppController {
     //     return { message };
     // }
 
-    @UseGuards(LocalAuthGuard) // Sử dụng AuthGuard với chiến lược 'local' để bảo vệ route này
+    @UseGuards(LocalAuthGuard) // Sử dụng AuthGuard với chiến lược 'local' để bảo vệ route này để đăng nhập
     @Post('/login')
     handleLogin(@Request() req) {
         return this.authService.login(req.user);// Trả về JWT token sau khi đăng nhập thành công
     }
 
-    @UseGuards(JwtAuthGuard) // Bảo vệ route này bằng token JWT
+    // @UseGuards(JwtAuthGuard) // Bảo vệ route này bằng token JWT
     @Get('/profile')
     getProfile(@Request() req) {
         return req.user;
