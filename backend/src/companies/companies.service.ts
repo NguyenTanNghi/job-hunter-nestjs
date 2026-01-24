@@ -35,15 +35,35 @@ export class CompaniesService {
         return company;
     }
 
-    async update(id: string, updateCompanyDto: UpdateCompanyDto) {
-
-    }
-
-    async remove(id: string) {
+    async update(id: string, updateCompanyDto: UpdateCompanyDto, user: IUser) {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return "ID không hợp lệ";
         }
-        const company = await this.companyModel.softDelete({ _id: id }); // Sử dụng soft delete để xóa người dùng
+        const company = await this.companyModel.updateOne(
+            { _id: id },
+            {
+                ...updateCompanyDto,
+                updatedBy: {
+                    _id: user._id,
+                    email: user.email,
+                },
+            },
+        );
+        return company;
+    }
+
+    async remove(id: string, user: IUser) {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return "ID không hợp lệ";
+        }
+        await this.companyModel.updateOne({ _id: id }, {
+            deletedBy: {
+                _id: user._id,
+                email: user.email,
+            },
+        });
+
+        const company = await this.companyModel.softDelete({ _id: id });
         return company;
     }
 }
