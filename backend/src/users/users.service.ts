@@ -1,14 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './schemas/user.schema';
-import mongoose, { Model } from 'mongoose';
+import { User, UserDocument } from './schemas/user.schema';
+import mongoose from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import { CreateUserDto } from './dto/create-user.dto';
+import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
 
 @Injectable()
 export class UsersService {
-    constructor(@InjectModel(User.name) private userModel: Model<User>) { } // Inject mô hình User vào dịch vụ người dùng
+    //  constructor(@InjectModel(User.name) private userModel: Model<User>) { }// Sử dụng Model thông thường khi không có soft delete
+    constructor(@InjectModel(User.name) private userModel: SoftDeleteModel<UserDocument>) { } // Sử dụng SoftDeleteModel thay vì Model để hỗ trợ soft delete
 
     // Hàm băm mật khẩu người dùng trước khi lưu vào cơ sở dữ liệu
     getHashPassword = (password: string) => {
@@ -66,7 +68,7 @@ export class UsersService {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return "ID không hợp lệ";
         }
-        const user = await this.userModel.deleteOne({ _id: id });
+        const user = await this.userModel.softDelete({ _id: id }); // Sử dụng soft delete để xóa người dùng
         return user;
     }
 }
