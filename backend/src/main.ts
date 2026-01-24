@@ -13,7 +13,7 @@ async function bootstrap() {
     // Thiết lập JwtAuthGuard toàn cục, thay thế cách đăng ký trong AppModule, tất cả các route đều cần xác thực
     // JWT trừ những route được đánh dấu là @Public()
     const reflector = app.get(Reflector)
-    app.useGlobalGuards(new JwtAuthGuard(reflector));
+    // app.useGlobalGuards(new JwtAuthGuard(reflector));
 
     app.useStaticAssets(join(__dirname, '..', 'public'));
     app.setBaseViewsDir(join(__dirname, '..', 'views'));
