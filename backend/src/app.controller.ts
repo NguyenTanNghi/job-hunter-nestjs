@@ -4,6 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { LocalAuthGuard } from './auth/local-auth.guard';
 import { AuthService } from './auth/auth.service';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { Public } from './auth/decorator/customize';
 
 @Controller()
 export class AppController {
@@ -20,6 +21,7 @@ export class AppController {
     //     return { message };
     // }
 
+    @Public() // Đánh dấu route này là công khai, không yêu cầu xác thực
     @UseGuards(LocalAuthGuard) // Sử dụng AuthGuard với chiến lược 'local' để bảo vệ route này để đăng nhập
     @Post('/login')
     handleLogin(@Request() req) {

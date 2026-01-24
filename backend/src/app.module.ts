@@ -26,9 +26,10 @@ import { APP_GUARD } from '@nestjs/core';
     controllers: [AppController],
     providers: [AppService,
         // Đăng ký JwtAuthGuard như một global guard để bảo vệ tất cả các route theo mặc định không cần khai báo @UseGuards(JwtAuthGuard) ở từng controller
-        {
-            provide: APP_GUARD,
-            useClass: JwtAuthGuard,
-        },],
+        // {
+        //     provide: APP_GUARD,
+        //     useClass: JwtAuthGuard,
+        // },
+    ],
 })
 export class AppModule { }
