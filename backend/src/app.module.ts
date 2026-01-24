@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { softDeletePlugin } from 'soft-delete-plugin-mongoose';
+import { CompaniesModule } from './companies/companies.module';
 
 @Module({
     imports: [
@@ -26,7 +27,8 @@ import { softDeletePlugin } from 'soft-delete-plugin-mongoose';
             isGlobal: true,//cho phép sử dụng ở mọi module
         }),
         UsersModule,
-        AuthModule
+        AuthModule,
+        CompaniesModule
     ],
     controllers: [AppController],
     providers: [AppService,
