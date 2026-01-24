@@ -16,6 +16,7 @@ export interface Response<T> {
     data: any;
 }
 
+// Interceptor để chuẩn hóa cấu trúc response từ các controller
 @Injectable()
 export class TransformInterceptor<T>
     implements NestInterceptor<T, Response<T>> {
