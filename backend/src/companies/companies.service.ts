@@ -5,6 +5,7 @@ import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
 import { Company, CompanyDocument } from './schemas/company.schema';
 import { InjectModel } from '@nestjs/mongoose/dist/common/mongoose.decorators';
 import mongoose from 'mongoose';
+import { IUser } from 'src/users/users.interface';
 
 @Injectable()
 export class CompaniesService {
@@ -12,15 +13,21 @@ export class CompaniesService {
         @InjectModel(Company.name) // InjectModel để tiêm CompanyModel vào service
         private companyModel: SoftDeleteModel<CompanyDocument>// Cấu hình SoftDeleteModel để sử dụng soft delete
     ) { }
-    async create(createCompanyDto: CreateCompanyDto) {
-        return await this.companyModel.create({ ...createCompanyDto });
+    async create(createCompanyDto: CreateCompanyDto, user: IUser) {
+        return await this.companyModel.create({
+            ...createCompanyDto,
+            createdBy: {
+                _id: new mongoose.Types.ObjectId(user._id),
+                email: user.email,
+            },
+        });
     }
 
     async findAll() {
         return await this.companyModel.find();
     }
 
-    async findOne(id: number) {
+    async findOne(id: string) {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return "ID không hợp lệ";
         }
@@ -28,11 +35,11 @@ export class CompaniesService {
         return company;
     }
 
-    async update(id: number, updateCompanyDto: UpdateCompanyDto) {
+    async update(id: string, updateCompanyDto: UpdateCompanyDto) {
 
     }
 
-    async remove(id: number) {
+    async remove(id: string) {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return "ID không hợp lệ";
         }

@@ -9,6 +9,7 @@ import { IUser } from 'src/users/users.interface';
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
     constructor(private configService: ConfigService) {
+        // Giải mã token từ header Authorization
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
             ignoreExpiration: false,
