@@ -1,9 +1,7 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { CompaniesService } from './companies.service';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
-import { InjectModel } from '@nestjs/mongoose';
-import { Company } from './schemas/company.schema';
 import { IUser } from 'src/users/users.interface';
 import { User } from 'src/auth/decorator/customize';
 
@@ -19,8 +17,12 @@ export class CompaniesController {
     }
 
     @Get()
-    findAll() {
-        return this.companiesService.findAll();
+    findAll(
+        @Query("page") currentPage: string,
+        @Query("limit") limitPage: string,
+        @Query() query: string
+    ) {
+        return this.companiesService.findAll(+currentPage, +limitPage, query);
     }
 
     @Get(':id')
