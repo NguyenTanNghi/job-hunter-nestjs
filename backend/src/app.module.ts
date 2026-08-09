@@ -11,32 +11,32 @@ import { softDeletePlugin } from 'soft-delete-plugin-mongoose';
 import { CompaniesModule } from './companies/companies.module';
 
 @Module({
-    imports: [
-        MongooseModule.forRootAsync({ // sử dụng ConfigService để kết nối MongoDB
-            imports: [ConfigModule],
-            useFactory: async (configService: ConfigService) => ({
-                uri: configService.get<string>('MONGODB_URL'),
-                connectionFactory: (connection) => { // thêm plugin soft delete vào mongoose connection, cấu hình global cho tất cả các schema
-                    connection.plugin(softDeletePlugin);
-                    return connection;
-                }
-            }),
-            inject: [ConfigService],
-        }),
-        ConfigModule.forRoot({
-            isGlobal: true,//cho phép sử dụng ở mọi module
-        }),
-        UsersModule,
-        AuthModule,
-        CompaniesModule
-    ],
-    controllers: [AppController],
-    providers: [AppService,
-        // Đăng ký JwtAuthGuard như một global guard để bảo vệ tất cả các route theo mặc định không cần khai báo @UseGuards(JwtAuthGuard) ở từng controller
-        // {
-        //     provide: APP_GUARD,
-        //     useClass: JwtAuthGuard,
-        // },
-    ],
+  imports: [
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        uri: configService.get<string>('MONGODB_URL'),
+        connectionFactory: (connection) => {
+          connection.plugin(softDeletePlugin);
+          return connection;
+        }
+      }),
+      inject: [ConfigService],
+    }),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    UsersModule,
+    AuthModule,
+    CompaniesModule
+  ],
+  controllers: [AppController],
+  providers: [AppService,
+    // Đăng ký JwtAuthGuard như một global guard để bảo vệ tất cả các route theo mặc định không cần khai báo @UseGuards(JwtAuthGuard) ở từng controller
+    // {
+    //     provide: APP_GUARD,
+    //     useClass: JwtAuthGuard,
+    // },
+  ],
 })
 export class AppModule { }

@@ -5,8 +5,8 @@ import { Company, CompanySchema } from './schemas/company.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
-    imports: [MongooseModule.forFeature([{ name: Company.name, schema: CompanySchema }])],// Để sử dụng được CRUD trong CompaniesService
-    controllers: [CompaniesController],
-    providers: [CompaniesService],
+  imports: [MongooseModule.forFeature([{ name: Company.name, schema: CompanySchema }])],
+  controllers: [CompaniesController],
+  providers: [CompaniesService],
 })
 export class CompaniesModule { }

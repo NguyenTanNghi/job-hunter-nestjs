@@ -7,37 +7,35 @@ import { ResponseMessage, User } from 'src/auth/decorator/customize';
 
 @Controller('companies')
 export class CompaniesController {
-    constructor(private readonly companiesService: CompaniesService) { }
+  constructor(private readonly companiesService: CompaniesService) { }
 
-    @Post()
-    create(@Body() createCompanyDto: CreateCompanyDto, @User() user: IUser) { // @User() user: IUser lấy thông tin user đã xác thực
-        // xài @User() user: IUser thay vì (@Request() req => req.user) vì đã tạo decorator User
-        // return user;
-        return this.companiesService.create(createCompanyDto, user);
-    }
+  @Post()
+  create(@Body() createCompanyDto: CreateCompanyDto, @User() user: IUser) {
+    return this.companiesService.create(createCompanyDto, user);
+  }
 
-    @Get()
-    @ResponseMessage('Lấy danh sách công ty thành công')
-    findAll(
-        @Query("page") currentPage: string,
-        @Query("limit") limitPage: string,
-        @Query() query: string
-    ) {
-        return this.companiesService.findAll(+currentPage, +limitPage, query);
-    }
+  @Get()
+  @ResponseMessage('Lấy danh sách công ty thành công')
+  findAll(
+    @Query("page") currentPage: string,
+    @Query("limit") limitPage: string,
+    @Query() query: string
+  ) {
+    return this.companiesService.findAll(+currentPage, +limitPage, query);
+  }
 
-    @Get(':id')
-    findOne(@Param('id') id: string) {
-        return this.companiesService.findOne(id);
-    }
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.companiesService.findOne(id);
+  }
 
-    @Patch(':id')
-    update(@Param('id') id: string, @Body() updateCompanyDto: UpdateCompanyDto, @User() user: IUser) {
-        return this.companiesService.update(id, updateCompanyDto, user);
-    }
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateCompanyDto: UpdateCompanyDto, @User() user: IUser) {
+    return this.companiesService.update(id, updateCompanyDto, user);
+  }
 
-    @Delete(':id')
-    remove(@Param('id') id: string, @User() user: IUser) {
-        return this.companiesService.remove(id, user);
-    }
+  @Delete(':id')
+  remove(@Param('id') id: string, @User() user: IUser) {
+    return this.companiesService.remove(id, user);
+  }
 }
