@@ -124,6 +124,20 @@
 						"description": "Lấy thông tin user (định dạng user object: _id, name, email, role) từ JWT Token."
 					},
 					"response": []
+				},
+				{
+					"name": "1.5 Refresh Token",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/auth/refresh",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "refresh"]
+						},
+						"description": "Cấp lại access_token và refresh_token mới từ cookie refresh_token."
+					},
+					"response": []
 				}
 			]
 		},
