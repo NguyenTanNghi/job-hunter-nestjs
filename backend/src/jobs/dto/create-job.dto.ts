@@ -1,4 +1,4 @@
-import { IsArray, IsBoolean, IsDate, IsNotEmpty, IsNotEmptyObject, IsObject, IsString, ValidateNested } from 'class-validator';
+import { IsArray, IsBoolean, IsDate, IsNotEmpty, IsNotEmptyObject, IsObject, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { Transform, Type } from 'class-transformer';
 import mongoose from 'mongoose';
 
@@ -25,7 +25,7 @@ export class CreateJobDto {
   @Type(() => Company)
   company: Company;
 
-  @IsNotEmpty({ message: 'Location không được để trống' })
+  @IsOptional()
   location: string;
 
   @IsNotEmpty({ message: 'Salary không được để trống' })

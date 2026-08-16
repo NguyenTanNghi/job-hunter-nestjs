@@ -499,8 +499,18 @@
 					"response": []
 				},
 				{
-					"name": "4.2 Fetch Jobs with Paginate (Public)",
+					"name": "4.2 Fetch Jobs with Paginate (JWT Required)",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -512,13 +522,23 @@
 								{ "key": "pageSize", "value": "10" }
 							]
 						},
-						"description": "Lấy danh sách các Job có phân trang."
+						"description": "Lấy danh sách các Job có phân trang (truyền JWT)."
 					},
 					"response": []
 				},
 				{
-					"name": "4.3 Fetch Job by ID (Public)",
+					"name": "4.3 Fetch Job by ID (JWT Required)",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -528,12 +548,12 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "647b51974d59e754db118e95",
+									"value": "6481d47f1029435f43e7c24e",
 									"description": "ID của Job"
 								}
 							]
 						},
-						"description": "Lấy chi tiết một Job theo ID."
+						"description": "Lấy chi tiết một Job theo ID (truyền JWT)."
 					},
 					"response": []
 				},
