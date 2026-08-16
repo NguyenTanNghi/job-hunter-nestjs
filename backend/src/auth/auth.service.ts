@@ -5,6 +5,7 @@ import { IUser } from 'src/users/users.interface';
 import { RegisterUserDto } from 'src/users/dto/create-user.dto';
 import { ConfigService } from '@nestjs/config';
 import ms from 'ms';
+import { Response } from "express";
 
 @Injectable()
 export class AuthService {
@@ -27,22 +28,30 @@ export class AuthService {
     }
 
     // Hàm này dùng để tạo và trả về JWT token khi người dùng đăng nhập thành công
-    async login(user: IUser) {
+    async login(user: IUser, response: Response) {
         const { _id, name, email, role } = user;
         const payload = { sub: "token login", iss: "from server", _id, name, email, role }; // payload là dữ liệu sẽ được mã hóa trong JWT token
 
         const refresh_token = this.createRefreshToken(payload);
 
+        // update refresh token db
+        await this.usersService.updateUserToken(refresh_token, _id)
+
+        // set refresh_token cookie
+        response.cookie("refresh_token", refresh_token, {
+            httpOnly: true,
+            maxAge: ms(this.configService.get<string>('JWT_REFRESH_EXPIRE'))
+        });
+
         return {
             access_token: this.jwtService.sign(payload),
-            refresh_token,
             user: {
                 _id,
                 name,
                 email,
                 // role
             }
-        }; // Trả về access_token và thông tin user cho client
+        };
     }
 
     async register(registerUserDto: RegisterUserDto) {

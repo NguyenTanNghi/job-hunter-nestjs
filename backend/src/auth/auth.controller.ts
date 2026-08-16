@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Request, UseGuards, Body } from "@nestjs/common";
+import { Controller, Get, Post, UseGuards, Body, Res, Req } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { LocalAuthGuard } from "./local-auth.guard";
 import { Public, ResponseMessage } from "./decorator/customize";
 import { RegisterUserDto } from "src/users/dto/create-user.dto";
+import { Response } from "express";
 
 @Controller("auth")
 export class AuthController {
@@ -14,8 +15,11 @@ export class AuthController {
     @UseGuards(LocalAuthGuard)
     @ResponseMessage('Đăng nhập người dùng')
     @Post('/login')
-    handleLogin(@Request() req) {
-        return this.authService.login(req.user);
+    handleLogin(
+        @Req() req,
+        @Res({ passthrough: true }) response: Response
+    ) {
+        return this.authService.login(req.user, response);
     }
 
     @Public()
@@ -27,7 +31,7 @@ export class AuthController {
 
     @Get('/profile')
     @ResponseMessage('Lấy thông tin tài khoản')
-    getProfile(@Request() req) {
+    getProfile(@Req() req) {
         return req.user;
     }
 }
