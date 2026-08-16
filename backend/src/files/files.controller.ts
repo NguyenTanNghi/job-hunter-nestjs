@@ -9,7 +9,7 @@ export class FilesController {
 
   @Post('upload')
   @ResponseMessage('Tải lên một tệp tin')
-  @UseInterceptors(FileInterceptor('file')) //tên field sử dụng trong form-data
+  @UseInterceptors(FileInterceptor('fileUpload')) //tên field sử dụng trong form-data
   uploadFile(@UploadedFile() file: Express.Multer.File) {
     return {
       fileName: file?.filename ?? ''

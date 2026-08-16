@@ -3,7 +3,7 @@ import { CompaniesService } from './companies.service';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
 import { IUser } from 'src/users/users.interface';
-import { ResponseMessage, User } from 'src/auth/decorator/customize';
+import { ResponseMessage, User, Public } from 'src/auth/decorator/customize';
 
 @Controller('companies')
 export class CompaniesController {
@@ -15,6 +15,7 @@ export class CompaniesController {
     return this.companiesService.create(createCompanyDto, user);
   }
 
+  @Public()
   @Get()
   @ResponseMessage('Lấy danh sách công ty thành công')
   findAll(
@@ -25,6 +26,7 @@ export class CompaniesController {
     return this.companiesService.findAll(+currentPage, +limitPage, query);
   }
 
+  @Public()
   @Get(':id')
   @ResponseMessage('Lấy thông tin công ty theo id')
   findOne(@Param('id') id: string) {

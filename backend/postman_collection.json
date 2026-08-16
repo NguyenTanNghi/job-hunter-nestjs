@@ -353,7 +353,7 @@
 					"response": []
 				},
 				{
-					"name": "3.2 Fetch All Companies (Pagination)",
+					"name": "3.2 Fetch All Companies (Public)",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -366,12 +366,12 @@
 								{ "key": "pageSize", "value": "10" }
 							]
 						},
-						"description": "Lấy danh sách công ty phân trang với tham số current và pageSize."
+						"description": "Lấy danh sách công ty phân trang cho Homepage (Public - Không bắt buộc JWT)."
 					},
 					"response": []
 				},
 				{
-					"name": "3.3 Fetch Company by ID",
+					"name": "3.3 Fetch Company by ID (Public)",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -387,7 +387,7 @@
 								}
 							]
 						},
-						"description": "Lấy chi tiết một công ty theo ID."
+						"description": "Lấy chi tiết một công ty theo ID để xem trang chi tiết công ty (Public - Không bắt buộc JWT)."
 					},
 					"response": []
 				},
@@ -487,7 +487,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"ReactJS / NestJS Developer\",\n  \"skills\": [\"ReactJS\", \"NestJS\", \"TypeScript\"],\n  \"company\": {\n    \"_id\": \"647b51974d59e754db118e95\",\n    \"name\": \"Hỏi Dân IT Company\"\n  },\n  \"location\": \"Hà Nội\",\n  \"salary\": 15000000,\n  \"quantity\": 3,\n  \"level\": \"MIDDLE\",\n  \"description\": \"<p>Tuyển dụng NestJS Developer làm việc tại Hà Nội</p>\",\n  \"startDate\": \"2026-08-16T00:00:00.000Z\",\n  \"endDate\": \"2026-09-16T00:00:00.000Z\",\n  \"isActive\": true\n}"
+							"raw": "{\n  \"name\": \"ReactJS / NestJS Developer\",\n  \"skills\": [\"ReactJS\", \"NestJS\", \"TypeScript\"],\n  \"company\": {\n    \"_id\": \"647b65a7464dc26d92730e4c\",\n    \"name\": \"Hỏi Dân IT\",\n    \"logo\": \"hoidanit-logo.png\"\n  },\n  \"location\": \"Hà Nội\",\n  \"salary\": 15000000,\n  \"quantity\": 3,\n  \"level\": \"MIDDLE\",\n  \"description\": \"<p>Tuyển dụng NestJS Developer làm việc tại Hà Nội</p>\",\n  \"startDate\": \"2026-08-16T00:00:00.000Z\",\n  \"endDate\": \"2026-09-16T00:00:00.000Z\",\n  \"isActive\": true\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/jobs",
@@ -499,18 +499,8 @@
 					"response": []
 				},
 				{
-					"name": "4.2 Fetch Jobs with Paginate (JWT Required)",
+					"name": "4.2 Fetch Jobs with Paginate (Public)",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{access_token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -522,23 +512,13 @@
 								{ "key": "pageSize", "value": "10" }
 							]
 						},
-						"description": "Lấy danh sách các Job có phân trang (truyền JWT)."
+						"description": "Lấy danh sách các Job có phân trang cho Homepage (Public - Không bắt buộc JWT)."
 					},
 					"response": []
 				},
 				{
-					"name": "4.3 Fetch Job by ID (JWT Required)",
+					"name": "4.3 Fetch Job by ID (Public)",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{access_token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -553,7 +533,7 @@
 								}
 							]
 						},
-						"description": "Lấy chi tiết một Job theo ID (truyền JWT)."
+						"description": "Lấy chi tiết một Job theo ID để xem chi tiết Job (Public - Không bắt buộc JWT)."
 					},
 					"response": []
 				},
@@ -579,7 +559,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Senior NestJS Developer\",\n  \"skills\": [\"NestJS\", \"TypeScript\", \"MongoDB\"],\n  \"location\": \"TP Hồ Chí Minh\",\n  \"salary\": 25000000,\n  \"quantity\": 5,\n  \"level\": \"SENIOR\",\n  \"description\": \"<p>Tuyển dụng Senior NestJS Developer</p>\",\n  \"startDate\": \"2026-08-16T00:00:00.000Z\",\n  \"endDate\": \"2026-10-16T00:00:00.000Z\",\n  \"isActive\": true\n}"
+							"raw": "{\n  \"name\": \"Senior NestJS Developer\",\n  \"skills\": [\"NestJS\", \"TypeScript\", \"MongoDB\"],\n  \"company\": {\n    \"_id\": \"647b65a7464dc26d92730e4c\",\n    \"name\": \"Hỏi Dân IT\",\n    \"logo\": \"hoidanit-logo-updated.png\"\n  },\n  \"location\": \"TP Hồ Chí Minh\",\n  \"salary\": 25000000,\n  \"quantity\": 5,\n  \"level\": \"SENIOR\",\n  \"description\": \"<p>Tuyển dụng Senior NestJS Developer</p>\",\n  \"startDate\": \"2026-08-16T00:00:00.000Z\",\n  \"endDate\": \"2026-10-16T00:00:00.000Z\",\n  \"isActive\": true\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/jobs/:id",
@@ -648,15 +628,15 @@
 						"header": [
 							{
 								"key": "folder_type",
-								"value": "user",
-								"description": "Tên thư mục lưu trữ trong public/images (ví dụ: user, company, resume, default)"
+								"value": "company",
+								"description": "Tên thư mục lưu trữ trong public/images (ví dụ: company, user, resume, default)"
 							}
 						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
 								{
-									"key": "file",
+									"key": "fileUpload",
 									"type": "file",
 									"description": "Chọn 1 file để upload (JPG, PNG, GIF, PDF, DOCX, TXT...)"
 								}
