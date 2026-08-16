@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { MulterModuleOptions, MulterOptionsFactory } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import path, { join } from 'path';
@@ -11,7 +11,7 @@ export class MulterConfigService implements MulterOptionsFactory {
     return process.cwd();
   };
 
-  // Tạo thư mục nếu chua tồn tại
+  // Tạo thư mục nếu chưa tồn tại
   ensureExists(targetDirectory: string) {
     fs.mkdir(targetDirectory, { recursive: true }, (error) => {
       if (!error) {
@@ -45,7 +45,21 @@ export class MulterConfigService implements MulterOptionsFactory {
           let finalName = `${baseName}-${Date.now()}${extName}`
           cb(null, finalName)
         }
-      })
+      }),
+      fileFilter: (req, file, cb) => {
+        const allowedFileTypes = /^(jpg|jpeg|png|gif|txt|pdf|doc|docx)$/i;
+        const isValidExtname = allowedFileTypes.test(path.extname(file.originalname).replace('.', ''));
+        const isValidMimetype = allowedFileTypes.test(file.mimetype);
+
+        if (isValidExtname || isValidMimetype) {
+          return cb(null, true);
+        } else {
+          cb(new HttpException(`File không đúng định dạng. Chỉ chấp nhận các định dạng: jpg, jpeg, png, gif, txt, pdf, doc, docx`, HttpStatus.UNPROCESSABLE_ENTITY), false);
+        }
+      },
+      limits: {
+        fileSize: 1024 * 1024 * 5 // 5MB limit
+      }
     };
   }
 }

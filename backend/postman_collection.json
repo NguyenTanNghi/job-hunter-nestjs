@@ -341,14 +341,14 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Hỏi Dân IT Company\",\n  \"address\": \"Hà Nội, Việt Nam\",\n  \"description\": \"Công ty đào tạo Lập trình NestJS\"\n}"
+							"raw": "{\n  \"name\": \"Hỏi Dân IT Company\",\n  \"address\": \"Hà Nội, Việt Nam\",\n  \"description\": \"Công ty đào tạo Lập trình NestJS\",\n  \"logo\": \"hoidanit-logo-1786872000000.png\"\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/companies",
 							"host": ["{{base_url}}"],
 							"path": ["companies"]
 						},
-						"description": "Tạo mới một công ty."
+						"description": "Tạo mới một công ty (kèm tên ảnh logo đã upload)."
 					},
 					"response": []
 				},
@@ -413,7 +413,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Hỏi Dân IT Updated\",\n  \"address\": \"TP Hồ Chí Minh\",\n  \"description\": \"Cập nhật mô tả công ty\"\n}"
+							"raw": "{\n  \"name\": \"Hỏi Dân IT Updated\",\n  \"address\": \"TP Hồ Chí Minh\",\n  \"description\": \"Cập nhật mô tả công ty\",\n  \"logo\": \"hoidanit-logo-updated.png\"\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/companies/:id",

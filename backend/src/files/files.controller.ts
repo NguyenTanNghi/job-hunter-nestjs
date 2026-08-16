@@ -1,7 +1,7 @@
-import { Controller, HttpStatus, ParseFilePipeBuilder, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Controller, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ResponseMessage } from 'src/auth/decorator/customize';
 import { FilesService } from './files.service';
-import { ResponseMessage, Public } from 'src/auth/decorator/customize';
 
 @Controller('files')
 export class FilesController {
@@ -10,19 +10,9 @@ export class FilesController {
   @Post('upload')
   @ResponseMessage('Tải lên một tệp tin')
   @UseInterceptors(FileInterceptor('file')) //tên field sử dụng trong form-data
-  uploadFile(@UploadedFile(
-    new ParseFilePipeBuilder()
-      .addFileTypeValidator({
-        fileType: /^(jpg|jpeg|png|image\/png|gif|txt|pdf|doc|docx|text\/plain)$/i,
-      })
-      .addMaxSizeValidator({
-        maxSize: 1024 * 1024 // 1MB
-      })
-      .build({
-        errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY
-      })) file: Express.Multer.File) {
+  uploadFile(@UploadedFile() file: Express.Multer.File) {
     return {
-      fileName: file.filename
+      fileName: file?.filename ?? ''
     };
   }
 }
