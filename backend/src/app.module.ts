@@ -1,15 +1,14 @@
 import { Module } from '@nestjs/common';
-import { AppService } from './app.service';
-import { AppController } from './app.controller';
-import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from "@nestjs/config";
-import { UsersModule } from './users/users.module';
-import { AuthModule } from './auth/auth.module';
-import { JwtAuthGuard } from './auth/jwt-auth.guard';
-import { APP_GUARD } from '@nestjs/core';
+import { MongooseModule } from '@nestjs/mongoose';
 import { softDeletePlugin } from 'soft-delete-plugin-mongoose';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { AuthModule } from './auth/auth.module';
 import { CompaniesModule } from './companies/companies.module';
+import { FilesModule } from './files/files.module';
 import { JobsModule } from './jobs/jobs.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -30,15 +29,10 @@ import { JobsModule } from './jobs/jobs.module';
     UsersModule,
     AuthModule,
     CompaniesModule,
-    JobsModule
+    JobsModule,
+    FilesModule
   ],
   controllers: [AppController],
-  providers: [AppService,
-    // Đăng ký JwtAuthGuard như một global guard để bảo vệ tất cả các route theo mặc định không cần khai báo @UseGuards(JwtAuthGuard) ở từng controller
-    // {
-    //     provide: APP_GUARD,
-    //     useClass: JwtAuthGuard,
-    // },
-  ],
+  providers: [AppService],
 })
 export class AppModule { }
