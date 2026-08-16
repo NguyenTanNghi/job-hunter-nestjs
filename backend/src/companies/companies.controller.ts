@@ -12,7 +12,7 @@ export class CompaniesController {
   @Post()
   @ResponseMessage('Tạo mới công ty')
   create(@Body() createCompanyDto: CreateCompanyDto, @User() user: IUser) {
-    return this.companiesService. create(createCompanyDto, user);
+    return this.companiesService.create(createCompanyDto, user);
   }
 
   @Get()

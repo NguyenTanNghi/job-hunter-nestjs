@@ -73,7 +73,7 @@
 							"host": ["{{base_url}}"],
 							"path": ["auth", "login"]
 						},
-						"description": "Đăng nhập hệ thống để nhận access_token JWT."
+						"description": "Đăng nhập hệ thống để nhận access_token JWT và lưu refresh_token cookie."
 					},
 					"response": []
 				},
@@ -217,15 +217,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/users?page=1&limit=10",
+							"raw": "{{base_url}}/users?current=1&pageSize=10",
 							"host": ["{{base_url}}"],
 							"path": ["users"],
 							"query": [
-								{ "key": "page", "value": "1" },
-								{ "key": "limit", "value": "10" }
+								{ "key": "current", "value": "1" },
+								{ "key": "pageSize", "value": "10" }
 							]
 						},
-						"description": "Lấy danh sách người dùng phân trang (không trả về password, truyền JWT)."
+						"description": "Lấy danh sách người dùng phân trang với tham số current và pageSize (không trả về password, truyền JWT)."
 					},
 					"response": []
 				},
@@ -358,15 +358,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/companies?page=1&limit=10",
+							"raw": "{{base_url}}/companies?current=1&pageSize=10",
 							"host": ["{{base_url}}"],
 							"path": ["companies"],
 							"query": [
-								{ "key": "page", "value": "1" },
-								{ "key": "limit", "value": "10" }
+								{ "key": "current", "value": "1" },
+								{ "key": "pageSize", "value": "10" }
 							]
 						},
-						"description": "Lấy danh sách công ty với phân trang."
+						"description": "Lấy danh sách công ty phân trang với tham số current và pageSize."
 					},
 					"response": []
 				},
