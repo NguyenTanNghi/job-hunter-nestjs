@@ -18,8 +18,8 @@ export class CompaniesController {
   @Get()
   @ResponseMessage('Lấy danh sách công ty thành công')
   findAll(
-    @Query("page") currentPage: string,
-    @Query("limit") limitPage: string,
+    @Query("current") currentPage: string,
+    @Query("pageSize") limitPage: string,
     @Query() query: string
   ) {
     return this.companiesService.findAll(+currentPage, +limitPage, query);
