@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Request, UseGuards } from "@nestjs/common";
+import { Controller, Get, Post, Request, UseGuards, Body } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { LocalAuthGuard } from "./local-auth.guard";
-import { Public } from "./decorator/customize";
+import { Public, ResponseMessage } from "./decorator/customize";
+import { RegisterUserDto } from "src/users/dto/create-user.dto";
 
 @Controller("auth")
 export class AuthController {
@@ -9,22 +10,23 @@ export class AuthController {
         private authService: AuthService
     ) { }
 
-    // @Get()//=> restful API
-    // @Render("home") //=> SSR
-    // handleHomePage() {
-    //     const message = this.appService.getHello();
-    //     return { message };
-    // }
-
-    @Public() // Đánh dấu route này là công khai, không yêu cầu xác thực
-    @UseGuards(LocalAuthGuard) // Sử dụng AuthGuard với chiến lược 'local' để bảo vệ route này để đăng nhập
+    @Public()
+    @UseGuards(LocalAuthGuard)
+    @ResponseMessage('Đăng nhập người dùng')
     @Post('/login')
     handleLogin(@Request() req) {
-        return this.authService.login(req.user);// Trả về JWT token sau khi đăng nhập thành công
+        return this.authService.login(req.user);
     }
 
-    // @UseGuards(JwtAuthGuard) // Bảo vệ route này bằng token JWT
+    @Public()
+    @ResponseMessage('Đăng ký tài khoản mới')
+    @Post('/register')
+    handleRegister(@Body() registerUserDto: RegisterUserDto) {
+        return this.authService.register(registerUserDto);
+    }
+
     @Get('/profile')
+    @ResponseMessage('Lấy thông tin tài khoản')
     getProfile(@Request() req) {
         return req.user;
     }

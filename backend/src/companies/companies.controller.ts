@@ -10,8 +10,9 @@ export class CompaniesController {
   constructor(private readonly companiesService: CompaniesService) { }
 
   @Post()
+  @ResponseMessage('Tạo mới công ty')
   create(@Body() createCompanyDto: CreateCompanyDto, @User() user: IUser) {
-    return this.companiesService.create(createCompanyDto, user);
+    return this.companiesService. create(createCompanyDto, user);
   }
 
   @Get()
@@ -25,16 +26,19 @@ export class CompaniesController {
   }
 
   @Get(':id')
+  @ResponseMessage('Lấy thông tin công ty theo id')
   findOne(@Param('id') id: string) {
     return this.companiesService.findOne(id);
   }
 
   @Patch(':id')
+  @ResponseMessage('Cập nhật công ty')
   update(@Param('id') id: string, @Body() updateCompanyDto: UpdateCompanyDto, @User() user: IUser) {
     return this.companiesService.update(id, updateCompanyDto, user);
   }
 
   @Delete(':id')
+  @ResponseMessage('Xóa công ty')
   remove(@Param('id') id: string, @User() user: IUser) {
     return this.companiesService.remove(id, user);
   }
