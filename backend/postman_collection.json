@@ -461,6 +461,152 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "4. Jobs",
+			"item": [
+				{
+					"name": "4.1 Create Job (JWT Required)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"ReactJS / NestJS Developer\",\n  \"skills\": [\"ReactJS\", \"NestJS\", \"TypeScript\"],\n  \"company\": {\n    \"_id\": \"647b51974d59e754db118e95\",\n    \"name\": \"Hỏi Dân IT Company\"\n  },\n  \"location\": \"Hà Nội\",\n  \"salary\": 15000000,\n  \"quantity\": 3,\n  \"level\": \"MIDDLE\",\n  \"description\": \"<p>Tuyển dụng NestJS Developer làm việc tại Hà Nội</p>\",\n  \"startDate\": \"2026-08-16T00:00:00.000Z\",\n  \"endDate\": \"2026-09-16T00:00:00.000Z\",\n  \"isActive\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/jobs",
+							"host": ["{{base_url}}"],
+							"path": ["jobs"]
+						},
+						"description": "Tạo mới một Job."
+					},
+					"response": []
+				},
+				{
+					"name": "4.2 Fetch Jobs with Paginate (Public)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/jobs?current=1&pageSize=10",
+							"host": ["{{base_url}}"],
+							"path": ["jobs"],
+							"query": [
+								{ "key": "current", "value": "1" },
+								{ "key": "pageSize", "value": "10" }
+							]
+						},
+						"description": "Lấy danh sách các Job có phân trang."
+					},
+					"response": []
+				},
+				{
+					"name": "4.3 Fetch Job by ID (Public)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/jobs/:id",
+							"host": ["{{base_url}}"],
+							"path": ["jobs", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "647b51974d59e754db118e95",
+									"description": "ID của Job"
+								}
+							]
+						},
+						"description": "Lấy chi tiết một Job theo ID."
+					},
+					"response": []
+				},
+				{
+					"name": "4.4 Update Job (JWT Required)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Senior NestJS Developer\",\n  \"skills\": [\"NestJS\", \"TypeScript\", \"MongoDB\"],\n  \"location\": \"TP Hồ Chí Minh\",\n  \"salary\": 25000000,\n  \"quantity\": 5,\n  \"level\": \"SENIOR\",\n  \"description\": \"<p>Tuyển dụng Senior NestJS Developer</p>\",\n  \"startDate\": \"2026-08-16T00:00:00.000Z\",\n  \"endDate\": \"2026-10-16T00:00:00.000Z\",\n  \"isActive\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/jobs/:id",
+							"host": ["{{base_url}}"],
+							"path": ["jobs", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "647b51974d59e754db118e95"
+								}
+							]
+						},
+						"description": "Cập nhật thông tin Job theo ID."
+					},
+					"response": []
+				},
+				{
+					"name": "4.5 Delete Job (JWT Required)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/jobs/:id",
+							"host": ["{{base_url}}"],
+							"path": ["jobs", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "647b51974d59e754db118e95"
+								}
+							]
+						},
+						"description": "Xóa Job (soft-delete)."
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"variable": [
