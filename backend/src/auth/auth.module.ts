@@ -19,7 +19,7 @@ import { AuthController } from './auth.controller';
             useFactory: async (configService: ConfigService) => ({
                 secret: configService.get<string>('JWT_ACCESS_TOKEN'),
                 signOptions: {
-                    expiresIn: ms(configService.get<string>('JWT_ACCESS_EXPIRE')) // chuyển đổi thời gian từ chuỗi sang số giây
+                    expiresIn: ms(configService.get<string>('JWT_ACCESS_EXPIRE')) / 1000 // ms() trả về miligiây (86.400.000 ms). jsonwebtoken nhận số là số GIÂY, nên cần chia 1000 để ra 86.400 giây = 1 ngày
                 },
             }),
             inject: [ConfigService],
