@@ -138,6 +138,30 @@
 						"description": "Cấp lại access_token và refresh_token mới từ cookie refresh_token."
 					},
 					"response": []
+				},
+				{
+					"name": "1.6 Logout User (JWT Required)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/auth/logout",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "logout"]
+						},
+						"description": "Đăng xuất người dùng: xóa cookie refresh_token và cập nhật refreshToken = null trong CSDL."
+					},
+					"response": []
 				}
 			]
 		},
