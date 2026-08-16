@@ -627,6 +627,51 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "5. Files",
+			"item": [
+				{
+					"name": "5.1 Upload Single File (JWT Required)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "folder_type",
+								"value": "user",
+								"description": "Tên thư mục lưu trữ trong public/images (ví dụ: user, company, resume, default)"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"description": "Chọn 1 file để upload (JPG, PNG, GIF, PDF, DOCX, TXT...)"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/files/upload",
+							"host": ["{{base_url}}"],
+							"path": ["files", "upload"]
+						},
+						"description": "Upload single file lên server, tự động tạo và lưu trữ file tại thư mục public/images/{folder_type}."
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"variable": [
