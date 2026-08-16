@@ -24,7 +24,15 @@ export class AuthService {
     async login(user: IUser) {
         const { _id, name, email, role } = user;
         const payload = { sub: "token login", iss: "from server", _id, name, email, role }; // payload là dữ liệu sẽ được mã hóa trong JWT token
-        return { access_token: this.jwtService.sign(payload), _id, name, email, role }; // Trả về access_token cho client
+        return {
+            access_token: this.jwtService.sign(payload),
+            user: {
+                _id,
+                name,
+                email,
+                // role
+            }
+        }; // Trả về access_token và thông tin user cho client
     }
 
     async register(registerUserDto: RegisterUserDto) {
