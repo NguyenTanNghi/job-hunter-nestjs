@@ -100,6 +100,30 @@
 						"description": "Lấy thông tin tài khoản người dùng từ JWT Token."
 					},
 					"response": []
+				},
+				{
+					"name": "1.4 Get User Account (JWT Required)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/auth/account",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "account"]
+						},
+						"description": "Lấy thông tin user (định dạng user object: _id, name, email, role) từ JWT Token."
+					},
+					"response": []
 				}
 			]
 		},

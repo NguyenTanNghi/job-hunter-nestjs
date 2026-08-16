@@ -1,9 +1,10 @@
 import { Controller, Get, Post, UseGuards, Body, Res, Req } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { LocalAuthGuard } from "./local-auth.guard";
-import { Public, ResponseMessage } from "./decorator/customize";
+import { Public, ResponseMessage, User } from "./decorator/customize";
 import { RegisterUserDto } from "src/users/dto/create-user.dto";
 import { Response } from "express";
+import { IUser } from "src/users/users.interface";
 
 @Controller("auth")
 export class AuthController {
@@ -29,9 +30,9 @@ export class AuthController {
         return this.authService.register(registerUserDto);
     }
 
-    @Get('/profile')
-    @ResponseMessage('Lấy thông tin tài khoản')
-    getProfile(@Req() req) {
-        return req.user;
+    @Get('/account')
+    @ResponseMessage('Lấy thông tin người dùng')
+    handleGetAccount(@User() user: IUser) {
+        return { user };
     }
 }
