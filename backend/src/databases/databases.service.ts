@@ -41,6 +41,11 @@ export class DatabasesService implements OnModuleInit {
     const countCompany = await this.companyModel.countDocuments({});
     const countJob = await this.jobModel.countDocuments({});
 
+    // Chuẩn hóa tự động location sang mã tỉnh thành chuẩn Frontend LOCATION_LIST (HANOI, HOCHIMINH, DANANG)
+    // await this.jobModel.updateMany({ location: { $in: ['Hà Nội', 'HN'] } }, { location: 'HANOI' });
+    // await this.jobModel.updateMany({ location: { $in: ['TP Hồ Chí Minh', 'HCM'] } }, { location: 'HOCHIMINH' });
+    // await this.jobModel.updateMany({ location: { $in: ['Đà Nẵng', 'DN'] } }, { location: 'DANANG' });
+
     if (countCompany > 0 || countJob > 0) {
       this.logger.log(`>>> SKIP SEED DATA: CSDL đã có sẵn dữ liệu (${countCompany} công ty, ${countJob} jobs). Bỏ qua seed.`);
       return;
@@ -60,6 +65,12 @@ export class DatabasesService implements OnModuleInit {
         ...comp,
         createdBy: defaultAdminUser,
       });
+      if (comp.createdAt && comp.updatedAt) {
+        await this.companyModel.updateOne(
+          { _id: newComp._id },
+          { $set: { createdAt: comp.createdAt, updatedAt: comp.updatedAt } }
+        );
+      }
       createdCompanies.push(newComp);
     }
     this.logger.log(`>>> Đã khởi tạo thành công ${createdCompanies.length} Công ty mẫu!`);
@@ -69,7 +80,7 @@ export class DatabasesService implements OnModuleInit {
     for (const jobData of INIT_JOBS_DATA) {
       const company = createdCompanies[jobData.companyIndex];
       if (company) {
-        await this.jobModel.create({
+        const newJob = await this.jobModel.create({
           name: jobData.name,
           skills: jobData.skills,
           company: {
@@ -87,6 +98,13 @@ export class DatabasesService implements OnModuleInit {
           isActive: jobData.isActive,
           createdBy: defaultAdminUser,
         });
+
+        if (jobData.createdAt && jobData.updatedAt) {
+          await this.jobModel.updateOne(
+            { _id: newJob._id },
+            { $set: { createdAt: jobData.createdAt, updatedAt: jobData.updatedAt } }
+          );
+        }
         jobCount++;
       }
     }
