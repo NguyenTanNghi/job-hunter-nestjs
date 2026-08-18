@@ -9,6 +9,7 @@ import { CompaniesModule } from './companies/companies.module';
 import { FilesModule } from './files/files.module';
 import { JobsModule } from './jobs/jobs.module';
 import { UsersModule } from './users/users.module';
+import { DatabasesModule } from './databases/databases.module';
 
 @Module({
   imports: [
@@ -30,7 +31,8 @@ import { UsersModule } from './users/users.module';
     AuthModule,
     CompaniesModule,
     JobsModule,
-    FilesModule
+    FilesModule,
+    DatabasesModule
   ],
   controllers: [AppController],
   providers: [AppService],
