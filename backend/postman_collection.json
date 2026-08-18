@@ -225,7 +225,7 @@
 								{ "key": "pageSize", "value": "10" }
 							]
 						},
-						"description": "Lấy danh sách người dùng phân trang với tham số current và pageSize (không trả về password, truyền JWT)."
+						"description": "Lấy danh sách người dùng phân trang với tham số current và pageSize."
 					},
 					"response": []
 				},
@@ -246,7 +246,7 @@
 								}
 							]
 						},
-						"description": "Lấy thông tin người dùng theo ID (không trả về password, không bắt buộc JWT)."
+						"description": "Lấy thông tin người dùng theo ID."
 					},
 					"response": []
 				},
@@ -279,7 +279,7 @@
 							"host": ["{{base_url}}"],
 							"path": ["users"]
 						},
-						"description": "Cập nhật thông tin người dùng (Tự động gán updatedBy)."
+						"description": "Cập nhật thông tin người dùng."
 					},
 					"response": []
 				},
@@ -310,7 +310,7 @@
 								}
 							]
 						},
-						"description": "Xóa người dùng bằng soft-delete (Tự động gán deletedBy)."
+						"description": "Xóa người dùng bằng soft-delete."
 					},
 					"response": []
 				}
@@ -348,7 +348,7 @@
 							"host": ["{{base_url}}"],
 							"path": ["companies"]
 						},
-						"description": "Tạo mới một công ty (kèm tên ảnh logo đã upload)."
+						"description": "Tạo mới một công ty."
 					},
 					"response": []
 				},
@@ -366,7 +366,7 @@
 								{ "key": "pageSize", "value": "10" }
 							]
 						},
-						"description": "Lấy danh sách công ty phân trang cho Homepage (Public - Không bắt buộc JWT)."
+						"description": "Lấy danh sách công ty phân trang cho Homepage (Public)."
 					},
 					"response": []
 				},
@@ -387,7 +387,7 @@
 								}
 							]
 						},
-						"description": "Lấy chi tiết một công ty theo ID để xem trang chi tiết công ty (Public - Không bắt buộc JWT)."
+						"description": "Lấy chi tiết một công ty theo ID để xem trang chi tiết công ty (Public)."
 					},
 					"response": []
 				},
@@ -487,7 +487,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"ReactJS / NestJS Developer\",\n  \"skills\": [\"ReactJS\", \"NestJS\", \"TypeScript\"],\n  \"company\": {\n    \"_id\": \"647b65a7464dc26d92730e4c\",\n    \"name\": \"Hỏi Dân IT\",\n    \"logo\": \"hoidanit-logo.png\"\n  },\n  \"location\": \"Hà Nội\",\n  \"salary\": 15000000,\n  \"quantity\": 3,\n  \"level\": \"MIDDLE\",\n  \"description\": \"<p>Tuyển dụng NestJS Developer làm việc tại Hà Nội</p>\",\n  \"startDate\": \"2026-08-16T00:00:00.000Z\",\n  \"endDate\": \"2026-09-16T00:00:00.000Z\",\n  \"isActive\": true\n}"
+							"raw": "{\n  \"name\": \"ReactJS / NestJS Developer\",\n  \"skills\": [\"ReactJS\", \"NestJS\", \"TypeScript\"],\n  \"company\": {\n    \"_id\": \"647b65a7464dc26d92730e4c\",\n    \"name\": \"Hỏi Dân IT\",\n    \"logo\": \"hoidanit-logo.png\"\n  },\n  \"location\": \"HANOI\",\n  \"salary\": 15000000,\n  \"quantity\": 3,\n  \"level\": \"MIDDLE\",\n  \"description\": \"<p>Tuyển dụng NestJS Developer làm việc tại Hà Nội</p>\",\n  \"startDate\": \"2026-08-16T00:00:00.000Z\",\n  \"endDate\": \"2026-09-16T00:00:00.000Z\",\n  \"isActive\": true\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/jobs",
@@ -512,7 +512,7 @@
 								{ "key": "pageSize", "value": "10" }
 							]
 						},
-						"description": "Lấy danh sách các Job có phân trang cho Homepage (Public - Không bắt buộc JWT)."
+						"description": "Lấy danh sách các Job có phân trang cho Homepage (Public)."
 					},
 					"response": []
 				},
@@ -533,7 +533,7 @@
 								}
 							]
 						},
-						"description": "Lấy chi tiết một Job theo ID để xem chi tiết Job (Public - Không bắt buộc JWT)."
+						"description": "Lấy chi tiết một Job theo ID để xem chi tiết Job (Public)."
 					},
 					"response": []
 				},
@@ -559,7 +559,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Senior NestJS Developer\",\n  \"skills\": [\"NestJS\", \"TypeScript\", \"MongoDB\"],\n  \"company\": {\n    \"_id\": \"647b65a7464dc26d92730e4c\",\n    \"name\": \"Hỏi Dân IT\",\n    \"logo\": \"hoidanit-logo-updated.png\"\n  },\n  \"location\": \"TP Hồ Chí Minh\",\n  \"salary\": 25000000,\n  \"quantity\": 5,\n  \"level\": \"SENIOR\",\n  \"description\": \"<p>Tuyển dụng Senior NestJS Developer</p>\",\n  \"startDate\": \"2026-08-16T00:00:00.000Z\",\n  \"endDate\": \"2026-10-16T00:00:00.000Z\",\n  \"isActive\": true\n}"
+							"raw": "{\n  \"name\": \"Senior NestJS Developer\",\n  \"skills\": [\"NestJS\", \"TypeScript\", \"MongoDB\"],\n  \"company\": {\n    \"_id\": \"647b65a7464dc26d92730e4c\",\n    \"name\": \"Hỏi Dân IT\",\n    \"logo\": \"hoidanit-logo-updated.png\"\n  },\n  \"location\": \"HOCHIMINH\",\n  \"salary\": 25000000,\n  \"quantity\": 5,\n  \"level\": \"SENIOR\",\n  \"description\": \"<p>Tuyển dụng Senior NestJS Developer</p>\",\n  \"startDate\": \"2026-08-16T00:00:00.000Z\",\n  \"endDate\": \"2026-10-16T00:00:00.000Z\",\n  \"isActive\": true\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/jobs/:id",
@@ -647,7 +647,196 @@
 							"host": ["{{base_url}}"],
 							"path": ["files", "upload"]
 						},
-						"description": "Upload single file lên server, tự động tạo và lưu trữ file tại thư mục public/images/{folder_type}."
+						"description": "Upload single file lên server."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "6. Resumes",
+			"item": [
+				{
+					"name": "6.1 Create Resume (JWT Required)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"url\": \"resume/cv-hoidanit-1786872000000.pdf\",\n  \"companyId\": \"647b51974d59e754db118e95\",\n  \"jobId\": \"6481d47f1029435f43e7c24e\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/resumes",
+							"host": ["{{base_url}}"],
+							"path": ["resumes"]
+						},
+						"description": "Tạo mới một Resume/CV ứng tuyển công việc."
+					},
+					"response": []
+				},
+				{
+					"name": "6.2 Fetch All Resumes with Paginate (JWT Required)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/resumes?current=1&pageSize=10",
+							"host": ["{{base_url}}"],
+							"path": ["resumes"],
+							"query": [
+								{ "key": "current", "value": "1" },
+								{ "key": "pageSize", "value": "10" }
+							]
+						},
+						"description": "Lấy danh sách tất cả các Resumes có phân trang."
+					},
+					"response": []
+				},
+				{
+					"name": "6.3 Fetch Resume by ID (JWT Required)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/resumes/:id",
+							"host": ["{{base_url}}"],
+							"path": ["resumes", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "6481d47f1029435f43e7c24e"
+								}
+							]
+						},
+						"description": "Lấy thông tin chi tiết một Resume theo ID."
+					},
+					"response": []
+				},
+				{
+					"name": "6.4 Fetch Resumes by User (JWT Required)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/resumes/by-user",
+							"host": ["{{base_url}}"],
+							"path": ["resumes", "by-user"]
+						},
+						"description": "Lấy danh sách các Resumes/CV đã nộp của người dùng đang đăng nhập."
+					},
+					"response": []
+				},
+				{
+					"name": "6.5 Update Resume Status (JWT Required)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"APPROVED\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/resumes/:id",
+							"host": ["{{base_url}}"],
+							"path": ["resumes", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "6481d47f1029435f43e7c24e"
+								}
+							]
+						},
+						"description": "Cập nhật trạng thái Resume (PENDING, REVIEWING, APPROVED, REJECTED) và lưu lịch sử history."
+					},
+					"response": []
+				},
+				{
+					"name": "6.6 Delete Resume (JWT Required)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/resumes/:id",
+							"host": ["{{base_url}}"],
+							"path": ["resumes", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "6481d47f1029435f43e7c24e"
+								}
+							]
+						},
+						"description": "Xóa Resume bằng soft-delete."
 					},
 					"response": []
 				}
