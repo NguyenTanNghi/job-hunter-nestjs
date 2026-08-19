@@ -121,7 +121,7 @@
 							"host": ["{{base_url}}"],
 							"path": ["auth", "account"]
 						},
-						"description": "Lấy thông tin user (định dạng user object: _id, name, email, role) từ JWT Token."
+						"description": "Lấy thông tin user từ JWT Token."
 					},
 					"response": []
 				},
@@ -159,7 +159,7 @@
 							"host": ["{{base_url}}"],
 							"path": ["auth", "logout"]
 						},
-						"description": "Đăng xuất người dùng: xóa cookie refresh_token và cập nhật refreshToken = null trong CSDL."
+						"description": "Đăng xuất người dùng."
 					},
 					"response": []
 				}
@@ -197,7 +197,7 @@
 							"host": ["{{base_url}}"],
 							"path": ["users"]
 						},
-						"description": "Tạo user mới bởi Admin (Tự động gán createdBy)."
+						"description": "Tạo user mới bởi Admin."
 					},
 					"response": []
 				},
@@ -225,7 +225,7 @@
 								{ "key": "pageSize", "value": "10" }
 							]
 						},
-						"description": "Lấy danh sách người dùng phân trang với tham số current và pageSize."
+						"description": "Lấy danh sách người dùng phân trang."
 					},
 					"response": []
 				},
@@ -241,8 +241,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "647b69a9d1c6875fa3feac20",
-									"description": "ID người dùng cần lấy thông tin"
+									"value": "647b69a9d1c6875fa3feac20"
 								}
 							]
 						},
@@ -305,8 +304,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "647b69a9d1c6875fa3feac20",
-									"description": "ID người dùng cần xóa"
+									"value": "647b69a9d1c6875fa3feac20"
 								}
 							]
 						},
@@ -382,12 +380,11 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "647b51974d59e754db118e95",
-									"description": "ID công ty"
+									"value": "647b51974d59e754db118e95"
 								}
 							]
 						},
-						"description": "Lấy chi tiết một công ty theo ID để xem trang chi tiết công ty (Public)."
+						"description": "Lấy chi tiết một công ty theo ID."
 					},
 					"response": []
 				},
@@ -512,7 +509,7 @@
 								{ "key": "pageSize", "value": "10" }
 							]
 						},
-						"description": "Lấy danh sách các Job có phân trang cho Homepage (Public)."
+						"description": "Lấy danh sách các Job có phân trang."
 					},
 					"response": []
 				},
@@ -528,12 +525,11 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "6481d47f1029435f43e7c24e",
-									"description": "ID của Job"
+									"value": "6481d47f1029435f43e7c24e"
 								}
 							]
 						},
-						"description": "Lấy chi tiết một Job theo ID để xem chi tiết Job (Public)."
+						"description": "Lấy chi tiết một Job theo ID."
 					},
 					"response": []
 				},
@@ -837,6 +833,336 @@
 							]
 						},
 						"description": "Xóa Resume bằng soft-delete."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "7. Permissions",
+			"item": [
+				{
+					"name": "7.1 Create Permission (JWT Required)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Create a User\",\n  \"apiPath\": \"/api/v1/users\",\n  \"method\": \"POST\",\n  \"module\": \"USERS\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/permissions",
+							"host": ["{{base_url}}"],
+							"path": ["permissions"]
+						},
+						"description": "Tạo mới một Permission (Quyền hạn sử dụng API)."
+					},
+					"response": []
+				},
+				{
+					"name": "7.2 Fetch Permissions with Paginate (JWT Required)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/permissions?current=1&pageSize=10",
+							"host": ["{{base_url}}"],
+							"path": ["permissions"],
+							"query": [
+								{ "key": "current", "value": "1" },
+								{ "key": "pageSize", "value": "10" }
+							]
+						},
+						"description": "Lấy danh sách các Permissions có phân trang."
+					},
+					"response": []
+				},
+				{
+					"name": "7.3 Fetch Permission by ID (JWT Required)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/permissions/:id",
+							"host": ["{{base_url}}"],
+							"path": ["permissions", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "648968cf5d0db8ac3fc14dab"
+								}
+							]
+						},
+						"description": "Lấy chi tiết Permission theo ID."
+					},
+					"response": []
+				},
+				{
+					"name": "7.4 Update Permission (JWT Required)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Create a User Updated\",\n  \"apiPath\": \"/api/v1/users\",\n  \"method\": \"POST\",\n  \"module\": \"USERS\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/permissions/:id",
+							"host": ["{{base_url}}"],
+							"path": ["permissions", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "648968cf5d0db8ac3fc14dab"
+								}
+							]
+						},
+						"description": "Cập nhật thông tin Permission theo ID."
+					},
+					"response": []
+				},
+				{
+					"name": "7.5 Delete Permission (JWT Required)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/permissions/:id",
+							"host": ["{{base_url}}"],
+							"path": ["permissions", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "648968cf5d0db8ac3fc14dab"
+								}
+							]
+						},
+						"description": "Xóa Permission (soft-delete)."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "8. Roles",
+			"item": [
+				{
+					"name": "8.1 Create Role (JWT Required)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"HR\",\n  \"description\": \"Role dành cho nhà tuyển dụng HR\",\n  \"isActive\": true,\n  \"permissions\": [\n    \"648968cf5d0db8ac3fc14dab\"\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/roles",
+							"host": ["{{base_url}}"],
+							"path": ["roles"]
+						},
+						"description": "Tạo mới một Role (Vai trò hệ thống) gán danh sách permissions."
+					},
+					"response": []
+				},
+				{
+					"name": "8.2 Fetch Roles with Paginate (JWT Required)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/roles?current=1&pageSize=10",
+							"host": ["{{base_url}}"],
+							"path": ["roles"],
+							"query": [
+								{ "key": "current", "value": "1" },
+								{ "key": "pageSize", "value": "10" }
+							]
+						},
+						"description": "Lấy danh sách các Roles có phân trang."
+					},
+					"response": []
+				},
+				{
+					"name": "8.3 Fetch Role by ID (JWT Required)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/roles/:id",
+							"host": ["{{base_url}}"],
+							"path": ["roles", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "648968cf5d0db8ac3fc14dab"
+								}
+							]
+						},
+						"description": "Lấy chi tiết Role theo ID (đã populate permissions)."
+					},
+					"response": []
+				},
+				{
+					"name": "8.4 Update Role (JWT Required)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"HR Updated\",\n  \"description\": \"Role dành cho nhà tuyển dụng HR\",\n  \"isActive\": true,\n  \"permissions\": [\n    \"648968cf5d0db8ac3fc14dab\"\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/roles/:id",
+							"host": ["{{base_url}}"],
+							"path": ["roles", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "648968cf5d0db8ac3fc14dab"
+								}
+							]
+						},
+						"description": "Cập nhật thông tin Role và danh sách permissions."
+					},
+					"response": []
+				},
+				{
+					"name": "8.5 Delete Role (JWT Required)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/roles/:id",
+							"host": ["{{base_url}}"],
+							"path": ["roles", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "648968cf5d0db8ac3fc14dab"
+								}
+							]
+						},
+						"description": "Xóa Role (soft-delete, trừ role ADMIN)."
 					},
 					"response": []
 				}
