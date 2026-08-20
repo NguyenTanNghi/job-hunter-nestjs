@@ -91,6 +91,7 @@ export class UsersService {
       .sort(sort as any)
       .select('-password')
       .populate(population)
+      .populate({ path: 'role', select: { _id: 1, name: 1 } })
       .exec();
 
     return {
@@ -108,12 +109,20 @@ export class UsersService {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       throw new BadRequestException("ID không hợp lệ");
     }
-    const user = await this.userModel.findOne({ _id: id }).select('-password');
+    const user = await this.userModel.findOne({ _id: id })
+      .select('-password')
+      .populate({ path: 'role', select: { _id: 1, name: 1 } });
     return user;
   }
 
   async findOneByUsername(username: string) {
-    const user = await this.userModel.findOne({ email: username });
+    const user = await this.userModel.findOne({ email: username }).populate({
+      path: 'role',
+      populate: {
+        path: 'permissions',
+        select: { _id: 1, apiPath: 1, name: 1, method: 1, module: 1 },
+      },
+    });
     return user;
   }
 
@@ -143,6 +152,11 @@ export class UsersService {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       throw new BadRequestException("ID không hợp lệ");
     }
+    const foundUser = await this.userModel.findById(id);
+    if (foundUser && foundUser.email === 'admin@gmail.com') {
+      throw new BadRequestException('Không thể xóa tài khoản admin hệ thống!');
+    }
+
     await this.userModel.updateOne(
       { _id: id },
       {
@@ -165,6 +179,12 @@ export class UsersService {
   }
 
   findUserByToken = async (refreshToken: string) => {
-    return await this.userModel.findOne({ refreshToken });
+    return await this.userModel.findOne({ refreshToken }).populate({
+      path: 'role',
+      populate: {
+        path: 'permissions',
+        select: { _id: 1, apiPath: 1, name: 1, method: 1, module: 1 },
+      },
+    });
   }
 }

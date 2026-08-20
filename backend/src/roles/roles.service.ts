@@ -72,7 +72,7 @@ export class RolesService {
 
   async findOne(id: string) {
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('ID không hợp lệ');
+      throw new BadRequestException('not found role');
     }
     return (await this.roleModel.findById(id))?.populate({
       path: 'permissions',
@@ -83,14 +83,6 @@ export class RolesService {
   async update(id: string, updateRoleDto: UpdateRoleDto, user: IUser) {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       throw new BadRequestException('ID không hợp lệ');
-    }
-
-    const { name } = updateRoleDto;
-    if (name) {
-      const isExist = await this.roleModel.findOne({ name, _id: { $ne: id } });
-      if (isExist) {
-        throw new BadRequestException(`Role với name=${name} đã tồn tại!`);
-      }
     }
 
     const updated = await this.roleModel.updateOne(
