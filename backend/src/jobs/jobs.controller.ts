@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
-import { JobsService } from './jobs.service';
-import { CreateJobDto } from './dto/create-job.dto';
-import { UpdateJobDto } from './dto/update-job.dto';
+import { JobsService } from 'src/jobs/jobs.service';
+import { CreateJobDto } from 'src/jobs/dto/create-job.dto';
+import { UpdateJobDto } from 'src/jobs/dto/update-job.dto';
 import { ResponseMessage, User, Public } from 'src/auth/decorator/customize';
 import { IUser } from 'src/users/users.interface';
 

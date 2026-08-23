@@ -1,9 +1,9 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
-import { Permission, PermissionDocument } from './schemas/permission.schema';
-import { CreatePermissionDto } from './dto/create-permission.dto';
-import { UpdatePermissionDto } from './dto/update-permission.dto';
+import { Permission, PermissionDocument } from 'src/permissions/schemas/permission.schema';
+import { CreatePermissionDto } from 'src/permissions/dto/create-permission.dto';
+import { UpdatePermissionDto } from 'src/permissions/dto/update-permission.dto';
 import { IUser } from 'src/users/users.interface';
 import mongoose from 'mongoose';
 import aqp from 'api-query-params';

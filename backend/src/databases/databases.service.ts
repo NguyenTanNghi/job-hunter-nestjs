@@ -8,7 +8,7 @@ import { Permission, PermissionDocument } from 'src/permissions/schemas/permissi
 import { Role, RoleDocument } from 'src/roles/schemas/role.schema';
 import { User, UserDocument } from 'src/users/schemas/user.schema';
 import { UsersService } from 'src/users/users.service';
-import { ADMIN_ROLE, HR_ROLE, INIT_COMPANIES, INIT_JOBS, INIT_PERMISSIONS, USER_ROLE } from './sample';
+import { ADMIN_ROLE, HR_ROLE, INIT_COMPANIES, INIT_JOBS, INIT_PERMISSIONS, USER_ROLE } from 'src/databases/sample';
 
 @Injectable()
 export class DatabasesService implements OnModuleInit {

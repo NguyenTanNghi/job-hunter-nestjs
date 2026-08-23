@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
-import { Resume, ResumeDocument } from './schemas/resume.schema';
-import { CreateUserCvDto } from './dto/create-resume.dto';
+import { Resume, ResumeDocument } from 'src/resumes/schemas/resume.schema';
+import { CreateUserCvDto } from 'src/resumes/dto/create-resume.dto';
 import { IUser } from 'src/users/users.interface';
 import mongoose from 'mongoose';
 import aqp from 'api-query-params';

@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
-import { PermissionsService } from './permissions.service';
-import { CreatePermissionDto } from './dto/create-permission.dto';
-import { UpdatePermissionDto } from './dto/update-permission.dto';
+import { PermissionsService } from 'src/permissions/permissions.service';
+import { CreatePermissionDto } from 'src/permissions/dto/create-permission.dto';
+import { UpdatePermissionDto } from 'src/permissions/dto/update-permission.dto';
 import { ResponseMessage, User } from 'src/auth/decorator/customize';
 import { IUser } from 'src/users/users.interface';
 

@@ -1,6 +1,6 @@
 import { PassportStrategy } from "@nestjs/passport";
 import { Strategy } from "passport-local";
-import { AuthService } from "../auth.service";
+import { AuthService } from "src/auth/auth.service";
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 
 // Chiến lược xác thực cục bộ sử dụng tên đăng nhập và mật khẩu

@@ -1,12 +1,12 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { User, UserDocument } from './schemas/user.schema';
+import { UpdateUserDto } from 'src/users/dto/update-user.dto';
+import { User, UserDocument } from 'src/users/schemas/user.schema';
 import mongoose from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
-import { CreateUserDto, RegisterUserDto } from './dto/create-user.dto';
+import { CreateUserDto, RegisterUserDto } from 'src/users/dto/create-user.dto';
 import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
-import { IUser } from './users.interface';
+import { IUser } from 'src/users/users.interface';
 import aqp from 'api-query-params';
 
 @Injectable()

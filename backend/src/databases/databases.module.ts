@@ -6,7 +6,7 @@ import { Permission, PermissionSchema } from 'src/permissions/schemas/permission
 import { Role, RoleSchema } from 'src/roles/schemas/role.schema';
 import { User, UserSchema } from 'src/users/schemas/user.schema';
 import { UsersModule } from 'src/users/users.module';
-import { DatabasesService } from './databases.service';
+import { DatabasesService } from 'src/databases/databases.service';
 
 @Module({
   imports: [

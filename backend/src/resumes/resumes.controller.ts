@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
-import { ResumesService } from './resumes.service';
-import { CreateUserCvDto } from './dto/create-resume.dto';
-import { UpdateResumeDto } from './dto/update-resume.dto';
+import { ResumesService } from 'src/resumes/resumes.service';
+import { CreateUserCvDto } from 'src/resumes/dto/create-resume.dto';
+import { UpdateResumeDto } from 'src/resumes/dto/update-resume.dto';
 import { ResponseMessage, User } from 'src/auth/decorator/customize';
 import { IUser } from 'src/users/users.interface';
 

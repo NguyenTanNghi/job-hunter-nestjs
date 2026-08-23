@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { CreateJobDto } from './dto/create-job.dto';
-import { UpdateJobDto } from './dto/update-job.dto';
+import { CreateJobDto } from 'src/jobs/dto/create-job.dto';
+import { UpdateJobDto } from 'src/jobs/dto/update-job.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Job, JobDocument } from './schemas/job.schema';
+import { Job, JobDocument } from 'src/jobs/schemas/job.schema';
 import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
 import { IUser } from 'src/users/users.interface';
 import mongoose from 'mongoose';

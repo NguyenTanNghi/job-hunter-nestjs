@@ -2,18 +2,18 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { MongooseModule } from '@nestjs/mongoose';
 import { softDeletePlugin } from 'soft-delete-plugin-mongoose';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { AuthModule } from './auth/auth.module';
-import { CompaniesModule } from './companies/companies.module';
-import { FilesModule } from './files/files.module';
-import { JobsModule } from './jobs/jobs.module';
-import { UsersModule } from './users/users.module';
-import { DatabasesModule } from './databases/databases.module';
-import { ResumesModule } from './resumes/resumes.module';
-import { PermissionsModule } from './permissions/permissions.module';
-import { RolesModule } from './roles/roles.module';
-import { SubscribersModule } from './subscribers/subscribers.module';
+import { AppController } from 'src/app.controller';
+import { AppService } from 'src/app.service';
+import { AuthModule } from 'src/auth/auth.module';
+import { CompaniesModule } from 'src/companies/companies.module';
+import { FilesModule } from 'src/files/files.module';
+import { JobsModule } from 'src/jobs/jobs.module';
+import { UsersModule } from 'src/users/users.module';
+import { DatabasesModule } from 'src/databases/databases.module';
+import { ResumesModule } from 'src/resumes/resumes.module';
+import { PermissionsModule } from 'src/permissions/permissions.module';
+import { RolesModule } from 'src/roles/roles.module';
+import { SubscribersModule } from 'src/subscribers/subscribers.module';
 
 @Module({
   imports: [

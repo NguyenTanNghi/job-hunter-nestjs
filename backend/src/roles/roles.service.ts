@@ -1,9 +1,9 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
-import { Role, RoleDocument } from './schemas/role.schema';
-import { CreateRoleDto } from './dto/create-role.dto';
-import { UpdateRoleDto } from './dto/update-role.dto';
+import { Role, RoleDocument } from 'src/roles/schemas/role.schema';
+import { CreateRoleDto } from 'src/roles/dto/create-role.dto';
+import { UpdateRoleDto } from 'src/roles/dto/update-role.dto';
 import { IUser } from 'src/users/users.interface';
 import mongoose from 'mongoose';
 import aqp from 'api-query-params';

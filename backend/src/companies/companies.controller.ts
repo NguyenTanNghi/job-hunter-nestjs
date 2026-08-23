@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
-import { CompaniesService } from './companies.service';
-import { CreateCompanyDto } from './dto/create-company.dto';
-import { UpdateCompanyDto } from './dto/update-company.dto';
+import { CompaniesService } from 'src/companies/companies.service';
+import { CreateCompanyDto } from 'src/companies/dto/create-company.dto';
+import { UpdateCompanyDto } from 'src/companies/dto/update-company.dto';
 import { IUser } from 'src/users/users.interface';
 import { ResponseMessage, User, Public } from 'src/auth/decorator/customize';
 
