@@ -7,6 +7,7 @@ import {
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
+import { IS_PUBLIC_KEY, IS_PUBLIC_PERMISSION } from 'src/auth/decorator/customize';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
@@ -15,7 +16,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     }
 
     canActivate(context: ExecutionContext) {
-        const isPublic = this.reflector.getAllAndOverride<boolean>('isPublic', [
+        const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
             context.getHandler(),
             context.getClass(),
         ]);
@@ -30,6 +31,11 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
             throw err || new UnauthorizedException("Token không hợp lệ hoặc đã hết hạn");
         }
 
+        const isSkipPermission = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_PERMISSION, [
+            context.getHandler(),
+            context.getClass(),
+        ]);
+
         const request: Request = context.switchToHttp().getRequest();
         const targetMethod = request.method;
         const targetPath = request.route?.path;
@@ -43,7 +49,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
             isExist = true;
         }
 
-        if (!isExist && user?.role?.name !== 'SUPER_ADMIN' && user?.role?.name !== 'ADMIN' && user?.email !== 'admin@gmail.com') {
+        if (!isExist && !isSkipPermission && user?.role?.name !== 'SUPER_ADMIN' && user?.role?.name !== 'ADMIN' && user?.email !== 'admin@gmail.com') {
             throw new ForbiddenException("Bạn không có quyền truy cập endpoint này");
         }
 

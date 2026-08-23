@@ -4,6 +4,9 @@ import { createParamDecorator, ExecutionContext, SetMetadata } from "@nestjs/com
 export const IS_PUBLIC_KEY = 'isPublic';
 export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
 
+export const IS_PUBLIC_PERMISSION = 'isPublicPermission';
+export const SkipCheckPermission = () => SetMetadata(IS_PUBLIC_PERMISSION, true);
+
 // Decorator để gán thông điệp tùy chỉnh cho response
 export const RESPONSE_MESSAGE_KEY = 'responseMessage';
 export const ResponseMessage = (message: string) => SetMetadata(RESPONSE_MESSAGE_KEY, message);

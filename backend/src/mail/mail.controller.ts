@@ -2,41 +2,52 @@ import { Controller, Get } from '@nestjs/common';
 import { MailService } from 'src/mail/mail.service';
 import { Public, ResponseMessage } from 'src/auth/decorator/customize';
 import { MailerService } from '@nestjs-modules/mailer';
+import { InjectModel } from '@nestjs/mongoose';
+import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
+import { Subscriber, SubscriberDocument } from 'src/subscribers/schemas/subscriber.schema';
+import { Job, JobDocument } from 'src/jobs/schemas/job.schema';
 
 @Controller('mail')
 export class MailController {
   constructor(
     private readonly mailService: MailService,
     private readonly mailerService: MailerService,
+    @InjectModel(Subscriber.name)
+    private subscriberModel: SoftDeleteModel<SubscriberDocument>,
+    @InjectModel(Job.name)
+    private jobModel: SoftDeleteModel<JobDocument>,
   ) {}
 
   @Get()
   @Public()
   @ResponseMessage('Test email')
   async handleTestEmail() {
-    await this.mailerService.sendMail({
-      to: 'haryphamdev@gmail.com',
-      from: '"Support Team" <support@example.com>',
-      subject: 'Welcome to Nice App! Confirm your Email',
-      template: 'test',
-      context: {
-        receiver: 'Eric',
-        jobs: [
-          {
-            name: 'Senior React Developer',
-            company: 'Tech Corp',
-            salary: '2,000 USD',
-            skills: ['React', 'TypeScript', 'Node.js'],
+    const subscribers = await this.subscriberModel.find({});
+    for (const subs of subscribers) {
+      const subsSkills = subs.skills;
+      const jobWithMatchingSkills = await this.jobModel.find({ skills: { $in: subsSkills } });
+      if (jobWithMatchingSkills?.length > 0) {
+        const jobs = jobWithMatchingSkills.map(item => {
+          return {
+            name: item.name,
+            company: item.company.name,
+            salary: `${item.salary}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ' đ',
+            skills: item.skills,
+          };
+        });
+
+        await this.mailerService.sendMail({
+          to: 'haryphamdev@gmail.com',
+          from: '"Support Team" <support@example.com>',
+          subject: 'Welcome to Nice App! Confirm your Email',
+          template: 'job',
+          context: {
+            receiver: subs.name,
+            jobs: jobs,
           },
-          {
-            name: 'NestJS Backend Engineer',
-            company: 'Global Software',
-            salary: '2,500 USD',
-            skills: ['NestJS', 'MongoDB', 'Docker'],
-          },
-        ],
-      },
-    });
+        });
+      }
+    }
     return 'ok';
   }
 }

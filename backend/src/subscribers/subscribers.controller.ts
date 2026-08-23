@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestj
 import { SubscribersService } from 'src/subscribers/subscribers.service';
 import { CreateSubscriberDto } from 'src/subscribers/dto/create-subscriber.dto';
 import { UpdateSubscriberDto } from 'src/subscribers/dto/update-subscriber.dto';
-import { ResponseMessage, User } from 'src/auth/decorator/customize';
+import { ResponseMessage, User, SkipCheckPermission } from 'src/auth/decorator/customize';
 import { IUser } from 'src/users/users.interface';
 
 @Controller('subscribers')
@@ -16,7 +16,8 @@ export class SubscribersController {
   }
 
   @Post('skills')
-  @ResponseMessage('Lấy thông tin kỹ năng của người dùng')
+  @ResponseMessage("Lấy thông tin subscribe skills của user")
+  @SkipCheckPermission()
   getUserSkills(@User() user: IUser) {
     return this.subscribersService.getUserSkills(user);
   }
@@ -39,6 +40,7 @@ export class SubscribersController {
 
   @Patch()
   @ResponseMessage('Cập nhật thông tin subscriber')
+  @SkipCheckPermission()
   update(@Body() updateSubscriberDto: UpdateSubscriberDto, @User() user: IUser) {
     return this.subscribersService.update(updateSubscriberDto, user);
   }
