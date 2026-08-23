@@ -1,8 +1,8 @@
 {
 	"info": {
-		"_postman_id": "job-hunter-nestjs-collection-v1",
-		"name": "Job Hunter NestJS API Collection",
-		"description": "Postman collection testing all APIs for Job Hunter NestJS Backend application.",
+		"_postman_id": "job-hunter-nestjs-collection-full-v1",
+		"name": "Job Hunter NestJS - Full APIs Collection",
+		"description": "Complete Postman API Collection covering 100% of endpoints for Job Hunter NestJS Backend (Auth, Users, Companies, Jobs, Files, Resumes, Permissions, Roles, Subscribers, Mail, Health).",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -10,37 +10,7 @@
 			"name": "1. Auth",
 			"item": [
 				{
-					"name": "1.1 Register User (Public)",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							}
-						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{ "key": "name", "value": "hỏi dân it", "type": "text" },
-								{ "key": "email", "value": "eric@gmail.com", "type": "text" },
-								{ "key": "password", "value": "123456", "type": "text" },
-								{ "key": "age", "value": "15", "type": "text" },
-								{ "key": "gender", "value": "male", "type": "text" },
-								{ "key": "address", "value": "vietnam", "type": "text" }
-							]
-						},
-						"url": {
-							"raw": "{{base_url}}/auth/register",
-							"host": ["{{base_url}}"],
-							"path": ["auth", "register"]
-						},
-						"description": "Đăng ký tài khoản người dùng (role mặc định = USER, không truyền JWT)."
-					},
-					"response": []
-				},
-				{
-					"name": "1.2 Login User",
+					"name": "1.1 Login (Admin / HR / User)",
 					"event": [
 						{
 							"listen": "test",
@@ -49,7 +19,7 @@
 									"var jsonData = pm.response.json();",
 									"if (jsonData && jsonData.data && jsonData.data.access_token) {",
 									"    pm.collectionVariables.set(\"access_token\", jsonData.data.access_token);",
-									"    console.log(\"Access token updated:\", jsonData.data.access_token);",
+									"    console.log(\"Access token saved:\", jsonData.data.access_token);",
 									"}"
 								],
 								"type": "text/javascript"
@@ -66,43 +36,42 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"username\": \"eric@gmail.com\",\n  \"password\": \"123456\"\n}"
+							"raw": "{\n  \"username\": \"admin@gmail.com\",\n  \"password\": \"123456\"\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/auth/login",
 							"host": ["{{base_url}}"],
 							"path": ["auth", "login"]
 						},
-						"description": "Đăng nhập hệ thống để nhận access_token JWT và lưu refresh_token cookie."
+						"description": "Đăng nhập hệ thống, tự động lưu `access_token` vào Collection Variables và nhận cookie `refresh_token`."
 					},
 					"response": []
 				},
 				{
-					"name": "1.3 Get User Profile (JWT Required)",
+					"name": "1.2 Register (Public)",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{access_token}}",
-									"type": "string"
-								}
-							]
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Nguyen Van A\",\n  \"email\": \"candidate@gmail.com\",\n  \"password\": \"123456\",\n  \"age\": 22,\n  \"gender\": \"MALE\",\n  \"address\": \"Hanoi, Vietnam\"\n}"
 						},
-						"method": "GET",
-						"header": [],
 						"url": {
-							"raw": "{{base_url}}/auth/profile",
+							"raw": "{{base_url}}/auth/register",
 							"host": ["{{base_url}}"],
-							"path": ["auth", "profile"]
+							"path": ["auth", "register"]
 						},
-						"description": "Lấy thông tin tài khoản người dùng từ JWT Token."
+						"description": "Đăng ký tài khoản ứng viên mới (mặc định gán vai trò USER)."
 					},
 					"response": []
 				},
 				{
-					"name": "1.4 Get User Account (JWT Required)",
+					"name": "1.3 Get Current Account Info",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -121,12 +90,12 @@
 							"host": ["{{base_url}}"],
 							"path": ["auth", "account"]
 						},
-						"description": "Lấy thông tin user từ JWT Token."
+						"description": "Lấy thông tin tài khoản hiện tại từ Access Token (kèm Role & Permissions & Company)."
 					},
 					"response": []
 				},
 				{
-					"name": "1.5 Refresh Token",
+					"name": "1.4 Refresh Token",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -135,12 +104,12 @@
 							"host": ["{{base_url}}"],
 							"path": ["auth", "refresh"]
 						},
-						"description": "Cấp lại access_token và refresh_token mới từ cookie refresh_token."
+						"description": "Cấp lại Access Token mới thông qua cookie `refresh_token`."
 					},
 					"response": []
 				},
 				{
-					"name": "1.6 Logout User (JWT Required)",
+					"name": "1.5 Logout",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -159,7 +128,7 @@
 							"host": ["{{base_url}}"],
 							"path": ["auth", "logout"]
 						},
-						"description": "Đăng xuất người dùng."
+						"description": "Đăng xuất tài khoản và xóa bỏ cookie `refresh_token`."
 					},
 					"response": []
 				}
@@ -169,7 +138,21 @@
 			"name": "2. Users",
 			"item": [
 				{
-					"name": "2.1 Create User (JWT Required)",
+					"name": "2.1 Create User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData && jsonData.data && jsonData.data._id) {",
+									"    pm.collectionVariables.set(\"user_id\", jsonData.data._id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -190,19 +173,19 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"hỏi dân it\",\n  \"email\": \"abc@gmail.com\",\n  \"password\": \"123456\",\n  \"age\": 25,\n  \"gender\": \"male\",\n  \"address\": \"vietnam\",\n  \"role\": \"ADMIN\",\n  \"company\": {\n    \"_id\": \"647b51974d59e754db118e95\",\n    \"name\": \"eric\"\n  }\n}"
+							"raw": "{\n  \"name\": \"HR Manager\",\n  \"email\": \"hr.fpt@gmail.com\",\n  \"password\": \"123456\",\n  \"age\": 28,\n  \"gender\": \"FEMALE\",\n  \"address\": \"Da Nang, Vietnam\",\n  \"role\": \"{{hr_role_id}}\",\n  \"company\": {\n    \"_id\": \"{{company_id}}\",\n    \"name\": \"FPT Software\"\n  }\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/users",
 							"host": ["{{base_url}}"],
 							"path": ["users"]
 						},
-						"description": "Tạo user mới bởi Admin."
+						"description": "Tạo người dùng mới với Role và thông tin Company cụ thể."
 					},
 					"response": []
 				},
 				{
-					"name": "2.2 Fetch Users with Paginate (JWT Required)",
+					"name": "2.2 Get Users with Pagination & Filters",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -217,40 +200,36 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/users?current=1&pageSize=10",
+							"raw": "{{base_url}}/users?current=1&pageSize=10&sort=-createdAt&name=/Admin/i",
 							"host": ["{{base_url}}"],
 							"path": ["users"],
 							"query": [
 								{ "key": "current", "value": "1" },
-								{ "key": "pageSize", "value": "10" }
+								{ "key": "pageSize", "value": "10" },
+								{ "key": "sort", "value": "-createdAt" },
+								{ "key": "name", "value": "/Admin/i" }
 							]
 						},
-						"description": "Lấy danh sách người dùng phân trang."
+						"description": "Lấy danh sách người dùng phân trang kèm điều kiện lọc và sắp xếp."
 					},
 					"response": []
 				},
 				{
-					"name": "2.3 Fetch User by ID (Public)",
+					"name": "2.3 Get User by ID (Public)",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/users/:id",
+							"raw": "{{base_url}}/users/{{user_id}}",
 							"host": ["{{base_url}}"],
-							"path": ["users", ":id"],
-							"variable": [
-								{
-									"key": "id",
-									"value": "647b69a9d1c6875fa3feac20"
-								}
-							]
+							"path": ["users", "{{user_id}}"]
 						},
-						"description": "Lấy thông tin người dùng theo ID."
+						"description": "Lấy chi tiết người dùng theo ID (không trả về mật khẩu)."
 					},
 					"response": []
 				},
 				{
-					"name": "2.4 Update User (JWT Required)",
+					"name": "2.4 Update User",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -271,19 +250,19 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"_id\": \"647b69a9d1c6875fa3feac20\",\n  \"name\": \"hỏi dân it\",\n  \"email\": \"abc@gmail.com\",\n  \"age\": 25,\n  \"gender\": \"male\",\n  \"address\": \"vietnam\",\n  \"role\": \"ADMIN\",\n  \"company\": {\n    \"_id\": \"647b51974d59e754db118e95\",\n    \"name\": \"eric company\"\n  }\n}"
+							"raw": "{\n  \"_id\": \"{{user_id}}\",\n  \"name\": \"HR Manager Updated\",\n  \"age\": 29,\n  \"gender\": \"FEMALE\",\n  \"address\": \"Ho Chi Minh, Vietnam\"\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/users",
 							"host": ["{{base_url}}"],
 							"path": ["users"]
 						},
-						"description": "Cập nhật thông tin người dùng."
+						"description": "Cập nhật thông tin người dùng theo `_id` trong body."
 					},
 					"response": []
 				},
 				{
-					"name": "2.5 Delete User (JWT Required)",
+					"name": "2.5 Delete User (Soft Delete)",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -298,17 +277,11 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/users/:id",
+							"raw": "{{base_url}}/users/{{user_id}}",
 							"host": ["{{base_url}}"],
-							"path": ["users", ":id"],
-							"variable": [
-								{
-									"key": "id",
-									"value": "647b69a9d1c6875fa3feac20"
-								}
-							]
+							"path": ["users", "{{user_id}}"]
 						},
-						"description": "Xóa người dùng bằng soft-delete."
+						"description": "Xóa mềm người dùng theo ID."
 					},
 					"response": []
 				}
@@ -318,7 +291,21 @@
 			"name": "3. Companies",
 			"item": [
 				{
-					"name": "3.1 Create Company (JWT Required)",
+					"name": "3.1 Create Company",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData && jsonData.data && jsonData.data._id) {",
+									"    pm.collectionVariables.set(\"company_id\", jsonData.data._id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -339,57 +326,52 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Hỏi Dân IT Company\",\n  \"address\": \"Hà Nội, Việt Nam\",\n  \"description\": \"Công ty đào tạo Lập trình NestJS\",\n  \"logo\": \"hoidanit-logo-1786872000000.png\"\n}"
+							"raw": "{\n  \"name\": \"FPT Software\",\n  \"address\": \"Cau Giay, Hanoi\",\n  \"description\": \"Cong ty cong nghe thong tin hang dau Viet Nam\",\n  \"logo\": \"fpt-logo-1724000000000.png\"\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/companies",
 							"host": ["{{base_url}}"],
 							"path": ["companies"]
 						},
-						"description": "Tạo mới một công ty."
+						"description": "Tạo mới một công ty trên hệ thống."
 					},
 					"response": []
 				},
 				{
-					"name": "3.2 Fetch All Companies (Public)",
+					"name": "3.2 Get Companies (Public Pagination)",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/companies?current=1&pageSize=10",
+							"raw": "{{base_url}}/companies?current=1&pageSize=10&sort=-createdAt",
 							"host": ["{{base_url}}"],
 							"path": ["companies"],
 							"query": [
 								{ "key": "current", "value": "1" },
-								{ "key": "pageSize", "value": "10" }
+								{ "key": "pageSize", "value": "10" },
+								{ "key": "sort", "value": "-createdAt" }
 							]
 						},
-						"description": "Lấy danh sách công ty phân trang cho Homepage (Public)."
+						"description": "Lấy danh sách công ty có phân trang (Public không cần Token)."
 					},
 					"response": []
 				},
 				{
-					"name": "3.3 Fetch Company by ID (Public)",
+					"name": "3.3 Get Company by ID (Public)",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/companies/:id",
+							"raw": "{{base_url}}/companies/{{company_id}}",
 							"host": ["{{base_url}}"],
-							"path": ["companies", ":id"],
-							"variable": [
-								{
-									"key": "id",
-									"value": "647b51974d59e754db118e95"
-								}
-							]
+							"path": ["companies", "{{company_id}}"]
 						},
-						"description": "Lấy chi tiết một công ty theo ID."
+						"description": "Lấy chi tiết công ty theo ID."
 					},
 					"response": []
 				},
 				{
-					"name": "3.4 Update Company (JWT Required)",
+					"name": "3.4 Update Company",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -410,25 +392,19 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Hỏi Dân IT Updated\",\n  \"address\": \"TP Hồ Chí Minh\",\n  \"description\": \"Cập nhật mô tả công ty\",\n  \"logo\": \"hoidanit-logo-updated.png\"\n}"
+							"raw": "{\n  \"name\": \"FPT Software Corporation\",\n  \"address\": \"Khu cong nghe cao Hoa Lac, Hanoi\",\n  \"description\": \"Tap doan cong nghe hang dau Viet Nam\"\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/companies/:id",
+							"raw": "{{base_url}}/companies/{{company_id}}",
 							"host": ["{{base_url}}"],
-							"path": ["companies", ":id"],
-							"variable": [
-								{
-									"key": "id",
-									"value": "647b51974d59e754db118e95"
-								}
-							]
+							"path": ["companies", "{{company_id}}"]
 						},
 						"description": "Cập nhật thông tin công ty theo ID."
 					},
 					"response": []
 				},
 				{
-					"name": "3.5 Delete Company (JWT Required)",
+					"name": "3.5 Delete Company (Soft Delete)",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -443,17 +419,11 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/companies/:id",
+							"raw": "{{base_url}}/companies/{{company_id}}",
 							"host": ["{{base_url}}"],
-							"path": ["companies", ":id"],
-							"variable": [
-								{
-									"key": "id",
-									"value": "647b51974d59e754db118e95"
-								}
-							]
+							"path": ["companies", "{{company_id}}"]
 						},
-						"description": "Xóa công ty dạng soft-delete."
+						"description": "Xóa mềm công ty theo ID."
 					},
 					"response": []
 				}
@@ -463,7 +433,21 @@
 			"name": "4. Jobs",
 			"item": [
 				{
-					"name": "4.1 Create Job (JWT Required)",
+					"name": "4.1 Create Job",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData && jsonData.data && jsonData.data._id) {",
+									"    pm.collectionVariables.set(\"job_id\", jsonData.data._id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -484,57 +468,53 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"ReactJS / NestJS Developer\",\n  \"skills\": [\"ReactJS\", \"NestJS\", \"TypeScript\"],\n  \"company\": {\n    \"_id\": \"647b65a7464dc26d92730e4c\",\n    \"name\": \"Hỏi Dân IT\",\n    \"logo\": \"hoidanit-logo.png\"\n  },\n  \"location\": \"HANOI\",\n  \"salary\": 15000000,\n  \"quantity\": 3,\n  \"level\": \"MIDDLE\",\n  \"description\": \"<p>Tuyển dụng NestJS Developer làm việc tại Hà Nội</p>\",\n  \"startDate\": \"2026-08-16T00:00:00.000Z\",\n  \"endDate\": \"2026-09-16T00:00:00.000Z\",\n  \"isActive\": true\n}"
+							"raw": "{\n  \"name\": \"Senior NestJS Backend Developer\",\n  \"skills\": [\"NestJS\", \"TypeScript\", \"MongoDB\", \"Docker\"],\n  \"company\": {\n    \"_id\": \"{{company_id}}\",\n    \"name\": \"FPT Software\",\n    \"logo\": \"fpt-logo.png\"\n  },\n  \"location\": \"Hanoi\",\n  \"salary\": 35000000,\n  \"quantity\": 3,\n  \"level\": \"SENIOR\",\n  \"description\": \"Phat trien he thong Backend Microservices voi NestJS va MongoDB\",\n  \"startDate\": \"2026-08-01T00:00:00.000Z\",\n  \"endDate\": \"2026-12-31T23:59:59.000Z\",\n  \"isActive\": true\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/jobs",
 							"host": ["{{base_url}}"],
 							"path": ["jobs"]
 						},
-						"description": "Tạo mới một Job."
+						"description": "Đăng tin tuyển dụng việc làm mới."
 					},
 					"response": []
 				},
 				{
-					"name": "4.2 Fetch Jobs with Paginate (Public)",
+					"name": "4.2 Get Jobs (Public / HR Scoped)",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/jobs?current=1&pageSize=10",
+							"raw": "{{base_url}}/jobs?current=1&pageSize=10&sort=-createdAt&skills=/NestJS/i",
 							"host": ["{{base_url}}"],
 							"path": ["jobs"],
 							"query": [
 								{ "key": "current", "value": "1" },
-								{ "key": "pageSize", "value": "10" }
+								{ "key": "pageSize", "value": "10" },
+								{ "key": "sort", "value": "-createdAt" },
+								{ "key": "skills", "value": "/NestJS/i" }
 							]
 						},
-						"description": "Lấy danh sách các Job có phân trang."
+						"description": "Lấy danh sách việc làm (Nếu đăng nhập bằng tài khoản HR, tự động lọc theo company của HR đó)."
 					},
 					"response": []
 				},
 				{
-					"name": "4.3 Fetch Job by ID (Public)",
+					"name": "4.3 Get Job by ID (Public)",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/jobs/:id",
+							"raw": "{{base_url}}/jobs/{{job_id}}",
 							"host": ["{{base_url}}"],
-							"path": ["jobs", ":id"],
-							"variable": [
-								{
-									"key": "id",
-									"value": "6481d47f1029435f43e7c24e"
-								}
-							]
+							"path": ["jobs", "{{job_id}}"]
 						},
-						"description": "Lấy chi tiết một Job theo ID."
+						"description": "Lấy thông tin chi tiết một công việc theo ID."
 					},
 					"response": []
 				},
 				{
-					"name": "4.4 Update Job (JWT Required)",
+					"name": "4.4 Update Job",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -555,25 +535,19 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Senior NestJS Developer\",\n  \"skills\": [\"NestJS\", \"TypeScript\", \"MongoDB\"],\n  \"company\": {\n    \"_id\": \"647b65a7464dc26d92730e4c\",\n    \"name\": \"Hỏi Dân IT\",\n    \"logo\": \"hoidanit-logo-updated.png\"\n  },\n  \"location\": \"HOCHIMINH\",\n  \"salary\": 25000000,\n  \"quantity\": 5,\n  \"level\": \"SENIOR\",\n  \"description\": \"<p>Tuyển dụng Senior NestJS Developer</p>\",\n  \"startDate\": \"2026-08-16T00:00:00.000Z\",\n  \"endDate\": \"2026-10-16T00:00:00.000Z\",\n  \"isActive\": true\n}"
+							"raw": "{\n  \"salary\": 40000000,\n  \"quantity\": 5,\n  \"isActive\": true\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/jobs/:id",
+							"raw": "{{base_url}}/jobs/{{job_id}}",
 							"host": ["{{base_url}}"],
-							"path": ["jobs", ":id"],
-							"variable": [
-								{
-									"key": "id",
-									"value": "647b51974d59e754db118e95"
-								}
-							]
+							"path": ["jobs", "{{job_id}}"]
 						},
-						"description": "Cập nhật thông tin Job theo ID."
+						"description": "Cập nhật thông tin công việc theo ID."
 					},
 					"response": []
 				},
 				{
-					"name": "4.5 Delete Job (JWT Required)",
+					"name": "4.5 Delete Job (Soft Delete)",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -588,17 +562,11 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/jobs/:id",
+							"raw": "{{base_url}}/jobs/{{job_id}}",
 							"host": ["{{base_url}}"],
-							"path": ["jobs", ":id"],
-							"variable": [
-								{
-									"key": "id",
-									"value": "647b51974d59e754db118e95"
-								}
-							]
+							"path": ["jobs", "{{job_id}}"]
 						},
-						"description": "Xóa Job (soft-delete)."
+						"description": "Xóa mềm công việc theo ID."
 					},
 					"response": []
 				}
@@ -608,7 +576,7 @@
 			"name": "5. Files",
 			"item": [
 				{
-					"name": "5.1 Upload Single File (JWT Required)",
+					"name": "5.1 Upload File (Company Logo / CV Resume)",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -625,7 +593,7 @@
 							{
 								"key": "folder_type",
 								"value": "company",
-								"description": "Tên thư mục lưu trữ trong public/images (ví dụ: company, user, resume, default)"
+								"description": "Loại thư mục lưu trữ (vd: company hoặc resume)"
 							}
 						],
 						"body": {
@@ -634,7 +602,7 @@
 								{
 									"key": "fileUpload",
 									"type": "file",
-									"description": "Chọn 1 file để upload (JPG, PNG, GIF, PDF, DOCX, TXT...)"
+									"src": ""
 								}
 							]
 						},
@@ -643,7 +611,7 @@
 							"host": ["{{base_url}}"],
 							"path": ["files", "upload"]
 						},
-						"description": "Upload single file lên server."
+						"description": "Tải lên tệp tin (ảnh logo hoặc file CV). Tối đa 1MB, chỉ chấp nhận jpg, jpeg, png, gif, pdf, doc, docx."
 					},
 					"response": []
 				}
@@ -653,7 +621,21 @@
 			"name": "6. Resumes",
 			"item": [
 				{
-					"name": "6.1 Create Resume (JWT Required)",
+					"name": "6.1 Create Resume (Candidate Apply Job)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData && jsonData.data && jsonData.data._id) {",
+									"    pm.collectionVariables.set(\"resume_id\", jsonData.data._id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -674,19 +656,19 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"url\": \"resume/cv-hoidanit-1786872000000.pdf\",\n  \"companyId\": \"647b51974d59e754db118e95\",\n  \"jobId\": \"6481d47f1029435f43e7c24e\"\n}"
+							"raw": "{\n  \"url\": \"resume-candidate-1724000000000.pdf\",\n  \"companyId\": \"{{company_id}}\",\n  \"jobId\": \"{{job_id}}\"\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/resumes",
 							"host": ["{{base_url}}"],
 							"path": ["resumes"]
 						},
-						"description": "Tạo mới một Resume/CV ứng tuyển công việc."
+						"description": "Ứng viên nộp hồ sơ ứng tuyển vào công việc cụ thể."
 					},
 					"response": []
 				},
 				{
-					"name": "6.2 Fetch All Resumes with Paginate (JWT Required)",
+					"name": "6.2 Get Resumes with Pagination (HR Scoped)",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -701,20 +683,23 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/resumes?current=1&pageSize=10",
+							"raw": "{{base_url}}/resumes?current=1&pageSize=10&sort=-createdAt&populate=companyId,jobId&fields=companyId._id,companyId.name,companyId.logo,jobId._id,jobId.name",
 							"host": ["{{base_url}}"],
 							"path": ["resumes"],
 							"query": [
 								{ "key": "current", "value": "1" },
-								{ "key": "pageSize", "value": "10" }
+								{ "key": "pageSize", "value": "10" },
+								{ "key": "sort", "value": "-createdAt" },
+								{ "key": "populate", "value": "companyId,jobId" },
+								{ "key": "fields", "value": "companyId._id,companyId.name,companyId.logo,jobId._id,jobId.name" }
 							]
 						},
-						"description": "Lấy danh sách tất cả các Resumes có phân trang."
+						"description": "Lấy danh sách hồ sơ ứng tuyển phân trang (Tài khoản HR chỉ xem được hồ sơ nộp vào công ty của mình)."
 					},
 					"response": []
 				},
 				{
-					"name": "6.3 Fetch Resume by ID (JWT Required)",
+					"name": "6.3 Get Resume by ID",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -729,22 +714,16 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/resumes/:id",
+							"raw": "{{base_url}}/resumes/{{resume_id}}",
 							"host": ["{{base_url}}"],
-							"path": ["resumes", ":id"],
-							"variable": [
-								{
-									"key": "id",
-									"value": "6481d47f1029435f43e7c24e"
-								}
-							]
+							"path": ["resumes", "{{resume_id}}"]
 						},
-						"description": "Lấy thông tin chi tiết một Resume theo ID."
+						"description": "Lấy thông tin chi tiết một hồ sơ ứng tuyển theo ID."
 					},
 					"response": []
 				},
 				{
-					"name": "6.4 Fetch Resumes by User (JWT Required)",
+					"name": "6.4 Get Resumes by Current User",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -763,12 +742,12 @@
 							"host": ["{{base_url}}"],
 							"path": ["resumes", "by-user"]
 						},
-						"description": "Lấy danh sách các Resumes/CV đã nộp của người dùng đang đăng nhập."
+						"description": "Lấy danh sách tất cả các hồ sơ do chính người dùng hiện tại đã nộp."
 					},
 					"response": []
 				},
 				{
-					"name": "6.5 Update Resume Status (JWT Required)",
+					"name": "6.5 Update Resume Status",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -792,22 +771,16 @@
 							"raw": "{\n  \"status\": \"APPROVED\"\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/resumes/:id",
+							"raw": "{{base_url}}/resumes/{{resume_id}}",
 							"host": ["{{base_url}}"],
-							"path": ["resumes", ":id"],
-							"variable": [
-								{
-									"key": "id",
-									"value": "6481d47f1029435f43e7c24e"
-								}
-							]
+							"path": ["resumes", "{{resume_id}}"]
 						},
-						"description": "Cập nhật trạng thái Resume (PENDING, REVIEWING, APPROVED, REJECTED) và lưu lịch sử history."
+						"description": "HR cập nhật trạng thái hồ sơ (PENDING, REVIEWING, APPROVED, REJECTED) kèm lưu lịch sử history."
 					},
 					"response": []
 				},
 				{
-					"name": "6.6 Delete Resume (JWT Required)",
+					"name": "6.6 Delete Resume (Soft Delete)",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -822,17 +795,11 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/resumes/:id",
+							"raw": "{{base_url}}/resumes/{{resume_id}}",
 							"host": ["{{base_url}}"],
-							"path": ["resumes", ":id"],
-							"variable": [
-								{
-									"key": "id",
-									"value": "6481d47f1029435f43e7c24e"
-								}
-							]
+							"path": ["resumes", "{{resume_id}}"]
 						},
-						"description": "Xóa Resume bằng soft-delete."
+						"description": "Xóa mềm hồ sơ ứng tuyển theo ID."
 					},
 					"response": []
 				}
@@ -842,7 +809,21 @@
 			"name": "7. Permissions",
 			"item": [
 				{
-					"name": "7.1 Create Permission (JWT Required)",
+					"name": "7.1 Create Permission",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData && jsonData.data && jsonData.data._id) {",
+									"    pm.collectionVariables.set(\"permission_id\", jsonData.data._id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -863,19 +844,19 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Create a User\",\n  \"apiPath\": \"/api/v1/users\",\n  \"method\": \"POST\",\n  \"module\": \"USERS\"\n}"
+							"raw": "{\n  \"name\": \"Create a Job\",\n  \"apiPath\": \"/api/v1/jobs\",\n  \"method\": \"POST\",\n  \"module\": \"JOBS\"\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/permissions",
 							"host": ["{{base_url}}"],
 							"path": ["permissions"]
 						},
-						"description": "Tạo mới một Permission (Quyền hạn sử dụng API)."
+						"description": "Tạo một quyền hạn API mới vào Database."
 					},
 					"response": []
 				},
 				{
-					"name": "7.2 Fetch Permissions with Paginate (JWT Required)",
+					"name": "7.2 Get Permissions with Pagination",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -890,20 +871,21 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/permissions?current=1&pageSize=10",
+							"raw": "{{base_url}}/permissions?current=1&pageSize=20&sort=-createdAt",
 							"host": ["{{base_url}}"],
 							"path": ["permissions"],
 							"query": [
 								{ "key": "current", "value": "1" },
-								{ "key": "pageSize", "value": "10" }
+								{ "key": "pageSize", "value": "20" },
+								{ "key": "sort", "value": "-createdAt" }
 							]
 						},
-						"description": "Lấy danh sách các Permissions có phân trang."
+						"description": "Lấy danh sách tất cả các quyền hạn API trong hệ thống."
 					},
 					"response": []
 				},
 				{
-					"name": "7.3 Fetch Permission by ID (JWT Required)",
+					"name": "7.3 Get Permission by ID",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -918,22 +900,16 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/permissions/:id",
+							"raw": "{{base_url}}/permissions/{{permission_id}}",
 							"host": ["{{base_url}}"],
-							"path": ["permissions", ":id"],
-							"variable": [
-								{
-									"key": "id",
-									"value": "648968cf5d0db8ac3fc14dab"
-								}
-							]
+							"path": ["permissions", "{{permission_id}}"]
 						},
-						"description": "Lấy chi tiết Permission theo ID."
+						"description": "Lấy thông tin chi tiết một Permission theo ID."
 					},
 					"response": []
 				},
 				{
-					"name": "7.4 Update Permission (JWT Required)",
+					"name": "7.4 Update Permission",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -954,25 +930,19 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Create a User Updated\",\n  \"apiPath\": \"/api/v1/users\",\n  \"method\": \"POST\",\n  \"module\": \"USERS\"\n}"
+							"raw": "{\n  \"name\": \"Create a Job (Updated)\",\n  \"apiPath\": \"/api/v1/jobs\",\n  \"method\": \"POST\",\n  \"module\": \"JOBS\"\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/permissions/:id",
+							"raw": "{{base_url}}/permissions/{{permission_id}}",
 							"host": ["{{base_url}}"],
-							"path": ["permissions", ":id"],
-							"variable": [
-								{
-									"key": "id",
-									"value": "648968cf5d0db8ac3fc14dab"
-								}
-							]
+							"path": ["permissions", "{{permission_id}}"]
 						},
 						"description": "Cập nhật thông tin Permission theo ID."
 					},
 					"response": []
 				},
 				{
-					"name": "7.5 Delete Permission (JWT Required)",
+					"name": "7.5 Delete Permission (Soft Delete)",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -987,17 +957,11 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/permissions/:id",
+							"raw": "{{base_url}}/permissions/{{permission_id}}",
 							"host": ["{{base_url}}"],
-							"path": ["permissions", ":id"],
-							"variable": [
-								{
-									"key": "id",
-									"value": "648968cf5d0db8ac3fc14dab"
-								}
-							]
+							"path": ["permissions", "{{permission_id}}"]
 						},
-						"description": "Xóa Permission (soft-delete)."
+						"description": "Xóa mềm Permission theo ID."
 					},
 					"response": []
 				}
@@ -1007,7 +971,21 @@
 			"name": "8. Roles",
 			"item": [
 				{
-					"name": "8.1 Create Role (JWT Required)",
+					"name": "8.1 Create Role",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData && jsonData.data && jsonData.data._id) {",
+									"    pm.collectionVariables.set(\"role_id\", jsonData.data._id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1028,19 +1006,19 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"HR\",\n  \"description\": \"Role dành cho nhà tuyển dụng HR\",\n  \"isActive\": true,\n  \"permissions\": [\n    \"648968cf5d0db8ac3fc14dab\"\n  ]\n}"
+							"raw": "{\n  \"name\": \"CONTENT_CREATOR\",\n  \"description\": \"Vai tro bien tap vien noi dung\",\n  \"isActive\": true,\n  \"permissions\": [\"{{permission_id}}\"]\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/roles",
 							"host": ["{{base_url}}"],
 							"path": ["roles"]
 						},
-						"description": "Tạo mới một Role (Vai trò hệ thống) gán danh sách permissions."
+						"description": "Tạo một vai trò mới kèm danh sách các permissions liên kết."
 					},
 					"response": []
 				},
 				{
-					"name": "8.2 Fetch Roles with Paginate (JWT Required)",
+					"name": "8.2 Get Roles with Pagination",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1055,20 +1033,22 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/roles?current=1&pageSize=10",
+							"raw": "{{base_url}}/roles?current=1&pageSize=10&populate=permissions&fields=permissions._id,permissions.name,permissions.apiPath,permissions.method,permissions.module",
 							"host": ["{{base_url}}"],
 							"path": ["roles"],
 							"query": [
 								{ "key": "current", "value": "1" },
-								{ "key": "pageSize", "value": "10" }
+								{ "key": "pageSize", "value": "10" },
+								{ "key": "populate", "value": "permissions" },
+								{ "key": "fields", "value": "permissions._id,permissions.name,permissions.apiPath,permissions.method,permissions.module" }
 							]
 						},
-						"description": "Lấy danh sách các Roles có phân trang."
+						"description": "Lấy danh sách các vai trò (populate đầy đủ thông tin quyền hạn)."
 					},
 					"response": []
 				},
 				{
-					"name": "8.3 Fetch Role by ID (JWT Required)",
+					"name": "8.3 Get Role by ID",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1083,22 +1063,16 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/roles/:id",
+							"raw": "{{base_url}}/roles/{{role_id}}",
 							"host": ["{{base_url}}"],
-							"path": ["roles", ":id"],
-							"variable": [
-								{
-									"key": "id",
-									"value": "648968cf5d0db8ac3fc14dab"
-								}
-							]
+							"path": ["roles", "{{role_id}}"]
 						},
-						"description": "Lấy chi tiết Role theo ID (đã populate permissions)."
+						"description": "Lấy thông tin chi tiết một Role theo ID."
 					},
 					"response": []
 				},
 				{
-					"name": "8.4 Update Role (JWT Required)",
+					"name": "8.4 Update Role",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1119,25 +1093,19 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"HR Updated\",\n  \"description\": \"Role dành cho nhà tuyển dụng HR\",\n  \"isActive\": true,\n  \"permissions\": [\n    \"648968cf5d0db8ac3fc14dab\"\n  ]\n}"
+							"raw": "{\n  \"name\": \"CONTENT_CREATOR_PRO\",\n  \"description\": \"Vai tro bien tap vien noi dung cap cao\",\n  \"isActive\": true,\n  \"permissions\": [\"{{permission_id}}\"]\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/roles/:id",
+							"raw": "{{base_url}}/roles/{{role_id}}",
 							"host": ["{{base_url}}"],
-							"path": ["roles", ":id"],
-							"variable": [
-								{
-									"key": "id",
-									"value": "648968cf5d0db8ac3fc14dab"
-								}
-							]
+							"path": ["roles", "{{role_id}}"]
 						},
-						"description": "Cập nhật thông tin Role và danh sách permissions."
+						"description": "Cập nhật thông tin vai trò và danh sách quyền gán."
 					},
 					"response": []
 				},
 				{
-					"name": "8.5 Delete Role (JWT Required)",
+					"name": "8.5 Delete Role (Soft Delete)",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1152,17 +1120,235 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/roles/:id",
+							"raw": "{{base_url}}/roles/{{role_id}}",
 							"host": ["{{base_url}}"],
-							"path": ["roles", ":id"],
-							"variable": [
+							"path": ["roles", "{{role_id}}"]
+						},
+						"description": "Xóa mềm vai trò theo ID."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "9. Subscribers",
+			"item": [
+				{
+					"name": "9.1 Create Subscriber",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData && jsonData.data && jsonData.data._id) {",
+									"    pm.collectionVariables.set(\"subscriber_id\", jsonData.data._id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
 								{
-									"key": "id",
-									"value": "648968cf5d0db8ac3fc14dab"
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
 								}
 							]
 						},
-						"description": "Xóa Role (soft-delete, trừ role ADMIN)."
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Subscriber User\",\n  \"email\": \"sub.user@gmail.com\",\n  \"skills\": [\"NestJS\", \"React\", \"Node.JS\", \"TypeScript\"]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/subscribers",
+							"host": ["{{base_url}}"],
+							"path": ["subscribers"]
+						},
+						"description": "Tạo một bản ghi đăng ký nhận bản tin việc làm theo kỹ năng."
+					},
+					"response": []
+				},
+				{
+					"name": "9.2 Get Subscribed Skills of Current User (SkipCheckPermission)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/subscribers/skills",
+							"host": ["{{base_url}}"],
+							"path": ["subscribers", "skills"]
+						},
+						"description": "Lấy danh sách các kỹ năng đã đăng ký nhận email của người dùng hiện tại (bỏ qua check dynamic permission)."
+					},
+					"response": []
+				},
+				{
+					"name": "9.3 Update / Upsert Subscriber Skills (SkipCheckPermission)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Subscriber User Updated\",\n  \"email\": \"sub.user@gmail.com\",\n  \"skills\": [\"NestJS\", \"TypeScript\", \"MongoDB\", \"Docker\", \"AWS\"]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/subscribers",
+							"host": ["{{base_url}}"],
+							"path": ["subscribers"]
+						},
+						"description": "Cập nhật hoặc tự động tạo mới (Upsert) thông tin đăng ký nhận email của người dùng (bỏ qua check dynamic permission)."
+					},
+					"response": []
+				},
+				{
+					"name": "9.4 Get Subscribers with Pagination",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/subscribers?current=1&pageSize=10&sort=-createdAt",
+							"host": ["{{base_url}}"],
+							"path": ["subscribers"],
+							"query": [
+								{ "key": "current", "value": "1" },
+								{ "key": "pageSize", "value": "10" },
+								{ "key": "sort", "value": "-createdAt" }
+							]
+						},
+						"description": "Lấy danh sách tất cả các subscriber trong hệ thống."
+					},
+					"response": []
+				},
+				{
+					"name": "9.5 Get Subscriber by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/subscribers/{{subscriber_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["subscribers", "{{subscriber_id}}"]
+						},
+						"description": "Lấy thông tin chi tiết một Subscriber theo ID."
+					},
+					"response": []
+				},
+				{
+					"name": "9.6 Delete Subscriber (Soft Delete)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/subscribers/{{subscriber_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["subscribers", "{{subscriber_id}}"]
+						},
+						"description": "Xóa mềm Subscriber theo ID."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "10. Mail",
+			"item": [
+				{
+					"name": "10.1 Trigger Send Job Matching Email (Public/Manual Test)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/mail",
+							"host": ["{{base_url}}"],
+							"path": ["mail"]
+						},
+						"description": "Gọi thủ công chức năng quét Subscribers theo skills, lọc các việc làm phù hợp và gửi email template Handlebars (đồng thời được lập lịch chạy tự động bằng Cron mỗi 00:00:00 Chủ Nhật)."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "11. Health",
+			"item": [
+				{
+					"name": "11.1 Check Health & Database Connection (Terminus)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/health",
+							"host": ["{{base_url}}"],
+							"path": ["health"]
+						},
+						"description": "Kiểm tra tình trạng sức khỏe server và ping kết nối MongoDB qua Terminus Health Indicator."
 					},
 					"response": []
 				}
@@ -1177,6 +1363,46 @@
 		},
 		{
 			"key": "access_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "user_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "company_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "job_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "resume_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "permission_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "role_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "hr_role_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "subscriber_id",
 			"value": "",
 			"type": "string"
 		}
