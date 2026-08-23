@@ -3,6 +3,10 @@ export interface IUser {
   name: string;
   email: string;
   role: any;
+  company?: {
+    _id: string;
+    name: string;
+  };
   permissions?: {
     _id: string;
     name: string;

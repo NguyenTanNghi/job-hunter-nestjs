@@ -47,10 +47,15 @@ export class ResumesService {
     };
   }
 
-  async findAll(currentPage: number, limitPage: number, query: string) {
+  async findAll(currentPage: number, limitPage: number, query: string, user?: IUser) {
     const { filter, sort, population, projection } = aqp(query);
     delete filter.current;
     delete filter.pageSize;
+
+    // HR chỉ xem được resume của công ty mình, Admin full quyền
+    if (user && user.role?.name !== 'ADMIN' && user.role?.name !== 'SUPER_ADMIN' && user.email !== 'admin@gmail.com' && user.company?._id) {
+      filter['companyId'] = user.company._id;
+    }
 
     let offset = (currentPage - 1) * limitPage;
     let defaultLimit = limitPage ? limitPage : 10;

@@ -22,8 +22,9 @@ export class JobsController {
     @Query('current') currentPage: string,
     @Query('pageSize') limitPage: string,
     @Query() query: string,
+    @User() user: IUser,
   ) {
-    return this.jobsService.findAll(+currentPage, +limitPage, query);
+    return this.jobsService.findAll(+currentPage, +limitPage, query, user);
   }
 
   @Public()
