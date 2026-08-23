@@ -15,9 +15,11 @@ import { PermissionsModule } from 'src/permissions/permissions.module';
 import { RolesModule } from 'src/roles/roles.module';
 import { SubscribersModule } from 'src/subscribers/subscribers.module';
 import { MailModule } from 'src/mail/mail.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({

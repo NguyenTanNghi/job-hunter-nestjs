@@ -6,6 +6,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
 import { Subscriber, SubscriberDocument } from 'src/subscribers/schemas/subscriber.schema';
 import { Job, JobDocument } from 'src/jobs/schemas/job.schema';
+import { Cron, CronExpression } from '@nestjs/schedule';
 
 @Controller('mail')
 export class MailController {
@@ -21,6 +22,7 @@ export class MailController {
   @Get()
   @Public()
   @ResponseMessage('Test email')
+  @Cron('0 0 0 * * 0') // Tự động gửi email vào 00:00:00 mỗi Chủ Nhật hàng tuần
   async handleTestEmail() {
     const subscribers = await this.subscriberModel.find({});
     for (const subs of subscribers) {
@@ -37,7 +39,7 @@ export class MailController {
         });
 
         await this.mailerService.sendMail({
-          to: 'haryphamdev@gmail.com',
+          to: 'haryphamdev@gmail.com', // hoặc subs.email khi chạy thực tế
           from: '"Support Team" <support@example.com>',
           subject: 'Welcome to Nice App! Confirm your Email',
           template: 'job',
