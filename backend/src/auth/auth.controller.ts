@@ -2,10 +2,12 @@ import { Controller, Get, Post, UseGuards, Body, Res, Req } from "@nestjs/common
 import { AuthService } from "src/auth/auth.service";
 import { LocalAuthGuard } from "src/auth/local-auth.guard";
 import { Public, ResponseMessage, User } from "src/auth/decorator/customize";
-import { RegisterUserDto } from "src/users/dto/create-user.dto";
+import { RegisterUserDto, UserLoginDto } from "src/users/dto/create-user.dto";
 import { Response } from "express";
 import { IUser } from "src/users/users.interface";
+import { ApiBody, ApiTags } from "@nestjs/swagger";
 
+@ApiTags('auth')
 @Controller("auth")
 export class AuthController {
     constructor(
@@ -14,6 +16,7 @@ export class AuthController {
 
     @Public()
     @UseGuards(LocalAuthGuard)
+    @ApiBody({ type: UserLoginDto })
     @ResponseMessage('Đăng nhập người dùng')
     @Post('/login')
     handleLogin(

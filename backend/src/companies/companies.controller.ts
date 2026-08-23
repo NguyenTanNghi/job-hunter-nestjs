@@ -4,7 +4,9 @@ import { CreateCompanyDto } from 'src/companies/dto/create-company.dto';
 import { UpdateCompanyDto } from 'src/companies/dto/update-company.dto';
 import { IUser } from 'src/users/users.interface';
 import { ResponseMessage, User, Public } from 'src/auth/decorator/customize';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('companies')
 @Controller('companies')
 export class CompaniesController {
   constructor(private readonly companiesService: CompaniesService) { }

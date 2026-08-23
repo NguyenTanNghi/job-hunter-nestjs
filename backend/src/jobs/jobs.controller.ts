@@ -4,7 +4,9 @@ import { CreateJobDto } from 'src/jobs/dto/create-job.dto';
 import { UpdateJobDto } from 'src/jobs/dto/update-job.dto';
 import { ResponseMessage, User, Public } from 'src/auth/decorator/customize';
 import { IUser } from 'src/users/users.interface';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('jobs')
 @Controller('jobs')
 export class JobsController {
   constructor(private readonly jobsService: JobsService) {}

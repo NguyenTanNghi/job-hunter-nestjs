@@ -1,5 +1,6 @@
-import { IsEmail, IsMongoId, IsNotEmpty, IsNotEmptyObject, IsObject, ValidateNested } from "class-validator";
+import { IsEmail, IsMongoId, IsNotEmpty, IsNotEmptyObject, IsObject, IsString, ValidateNested } from "class-validator";
 import { Type } from "class-transformer";
+import { ApiProperty } from "@nestjs/swagger";
 import mongoose from "mongoose";
 
 class Company {
@@ -9,6 +10,7 @@ class Company {
   @IsNotEmpty({ message: 'Tên công ty không được để trống' })
   name: string;
 }
+
 export class CreateUserDto {
   @IsNotEmpty({ message: 'Tên không được để trống' })
   name: string;
@@ -21,16 +23,16 @@ export class CreateUserDto {
   password: string;
 
   @IsNotEmpty({ message: 'Tuổi không được để trống' })
-  age: number
+  age: number;
 
   @IsNotEmpty({ message: 'Giới tính không được để trống' })
-  gender: string
+  gender: string;
 
   @IsNotEmpty({ message: 'Địa chỉ không được để trống' })
   address: string;
 
   @IsNotEmpty({ message: 'Role không được để trống' })
-  @IsMongoId({message:"Role có định dạng là mongo Id"})
+  @IsMongoId({ message: "Role có định dạng là mongo Id" })
   role: string;
 
   @IsNotEmptyObject()
@@ -52,11 +54,23 @@ export class RegisterUserDto {
   password: string;
 
   @IsNotEmpty({ message: 'Tuổi không được để trống' })
-  age: number
+  age: number;
 
   @IsNotEmpty({ message: 'Giới tính không được để trống' })
-  gender: string
+  gender: string;
 
   @IsNotEmpty({ message: 'Địa chỉ không được để trống' })
   address: string;
+}
+
+export class UserLoginDto {
+  @IsString()
+  @IsNotEmpty({ message: 'username không được để trống' })
+  @ApiProperty({ example: 'admin@gmail.com', description: 'Tên đăng nhập' })
+  readonly username: string;
+
+  @IsString()
+  @IsNotEmpty({ message: 'password không được để trống' })
+  @ApiProperty({ example: '123456', description: 'Mật khẩu' })
+  readonly password: string;
 }

@@ -2,7 +2,9 @@ import { Controller, Post, UploadedFile, UseInterceptors } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ResponseMessage } from 'src/auth/decorator/customize';
 import { FilesService } from 'src/files/files.service';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('files')
 @Controller('files')
 export class FilesController {
   constructor(private readonly filesService: FilesService) { }
